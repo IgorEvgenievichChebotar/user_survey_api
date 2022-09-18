@@ -10,9 +10,13 @@ public interface SurveyService {
 
     List<Survey> findActive();
 
-    List<Survey> findPassedByUserId(Long id); // only for current user(id)
-
     void pass(Survey survey, Long id);
+
+    //-------------------------------------------------------------------//
+
+    List<Survey> findPassedByUserId(Long id); /* only for current user(id)
+                                                 otherwise for admin
+                                                 one method for 2 cases */
 
     //-------------------------------------------------------------------//
 
