@@ -4,9 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -22,12 +22,12 @@ public class Usr {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Size(max = 255)
     @Column(name = "name")
+    @Type(type = "org.hibernate.type.TextType")
     private String name;
 
-    @Size(max = 255)
     @Column(name = "email")
+    @Type(type = "org.hibernate.type.TextType")
     private String email;
 
     @ManyToMany

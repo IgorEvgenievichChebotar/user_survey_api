@@ -4,10 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -24,20 +23,18 @@ public class Survey {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Size(max = 255)
-    @NotNull
     @Column(name = "title", nullable = false)
+    @Type(type = "org.hibernate.type.TextType")
     private String title;
 
-    @NotNull
     @Column(name = "start_date", nullable = false)
     private LocalDate startDate;
 
     @Column(name = "end_date")
     private LocalDate endDate;
 
-    @Size(max = 255)
     @Column(name = "description")
+    @Type(type = "org.hibernate.type.TextType")
     private String description;
 
     @ManyToMany
