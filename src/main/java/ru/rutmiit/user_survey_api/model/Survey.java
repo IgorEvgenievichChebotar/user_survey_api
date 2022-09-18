@@ -1,20 +1,22 @@
 package ru.rutmiit.user_survey_api.model;
 
-import lombok.*;
-import org.hibernate.Hibernate;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
-import java.util.Objects;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
-@Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-@ToString
-@RequiredArgsConstructor
+@Entity
 @Table(name = "survey")
 public class Survey {
     @Id
@@ -42,19 +44,9 @@ public class Survey {
     @JoinTable(name = "usr_survey",
             joinColumns = @JoinColumn(name = "survey_id"),
             inverseJoinColumns = @JoinColumn(name = "usr_id"))
-    @ToString.Exclude
-    private Set<Usr> usrs;
+    private Set<Usr> usrs = new LinkedHashSet<>();
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Survey survey = (Survey) o;
-        return id != null && Objects.equals(id, survey.id);
-    }
+    @OneToMany(mappedBy = "survey")
+    private Set<Question> questions = new LinkedHashSet<>();
 
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
 }
