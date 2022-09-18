@@ -39,18 +39,13 @@ create table usr
     email text default (null)
 );
 
-create table text_answer
+create table answer
 (
-    usr_id      bigint references usr (id),
-    question_id bigint references question (id),
-    answer      text
-);
-
-create table selective_answer
-(
-    usr_id      bigint references usr (id),
-    question_id bigint references question (id),
-    answer      smallint[]
+    usr_id         bigint references usr (id),
+    question_id    bigint references question (id),
+    primary key (usr_id, question_id),
+    text_answer    text default (null),
+    numeric_answer int  default (null)
 );
 
 create table usr_survey
