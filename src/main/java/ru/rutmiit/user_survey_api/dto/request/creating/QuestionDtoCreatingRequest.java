@@ -18,6 +18,6 @@ import java.util.Set;
 @Setter
 public class QuestionDtoCreatingRequest {
     private String text;
-    private Set<OptionDtoCreatingRequest> options = new LinkedHashSet<>();
     private QuestionType type;
+    private Set<OptionDtoCreatingRequest> options = new LinkedHashSet<>();
 }

@@ -11,6 +11,5 @@ import lombok.Setter;
 @Setter
 public class QuestionDtoPassingRequest {
     private Long id;
-    private String textAnswer;
-    private String numericAnswer;
+    private String answer;
 }

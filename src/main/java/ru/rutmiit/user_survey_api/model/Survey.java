@@ -46,4 +46,14 @@ public class Survey {
     @OneToMany(mappedBy = "survey")
     private Set<Question> questions = new LinkedHashSet<>();
 
+    public Survey(String title, LocalDate endDate, String description, Set<Question> questions) {
+        this.title = title;
+        this.endDate = endDate;
+        this.description = description;
+        this.questions = questions;
+    }
+
+    public Survey(Set<Question> questions) {
+        this.questions = questions;
+    }
 }

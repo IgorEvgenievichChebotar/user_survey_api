@@ -31,10 +31,16 @@ public class Question {
     @Type(type = "org.hibernate.type.TextType")
     private String text;
 
+    @Column(name = "type", columnDefinition = "question_type")
+    @Enumerated(EnumType.STRING)
+    private QuestionType type;
+
     @OneToMany(mappedBy = "question")
     private Set<Option> options = new LinkedHashSet<>();
 
-    @Column(name = "type", columnDefinition = "question_type")
-    private QuestionType type;
-
+    public Question(String text, QuestionType type, Set<Option> options) {
+        this.text = text;
+        this.type = type;
+        this.options = options;
+    }
 }

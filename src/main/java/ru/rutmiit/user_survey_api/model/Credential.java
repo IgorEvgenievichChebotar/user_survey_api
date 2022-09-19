@@ -7,28 +7,33 @@ import lombok.Setter;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "option")
-public class Option {
+@Table(name = "credential")
+public class Credential {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "question_id")
-    private Question question;
-
-    @Column(name = "text", nullable = false)
+    @NotNull
+    @Column(name = "username", nullable = false)
     @Type(type = "org.hibernate.type.TextType")
-    private String text;
+    private String username;
 
-    public Option(String text) {
-        this.text = text;
-    }
+    @NotNull
+    @Column(name = "password", nullable = false)
+    @Type(type = "org.hibernate.type.TextType")
+    private String password;
+
+    @NotNull
+    @Column(name = "role", nullable = false)
+    @Type(type = "org.hibernate.type.TextType")
+    private String role;
+
 }
