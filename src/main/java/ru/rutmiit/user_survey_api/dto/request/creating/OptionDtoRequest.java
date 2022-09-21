@@ -12,6 +12,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class OptionDtoCreatingRequest {
+public class OptionDtoRequest {
     private String text;
 }

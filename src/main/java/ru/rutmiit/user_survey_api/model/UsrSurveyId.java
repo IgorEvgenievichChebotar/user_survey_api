@@ -8,7 +8,6 @@ import org.hibernate.Hibernate;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.validation.constraints.NotNull;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
@@ -21,11 +20,9 @@ import java.util.Objects;
 public class UsrSurveyId implements Serializable {
     @Serial
     private static final long serialVersionUID = -6535807601180461100L;
-    @NotNull
     @Column(name = "usr_id", nullable = false)
     private Long usrId;
 
-    @NotNull
     @Column(name = "survey_id", nullable = false)
     private Long surveyId;
 

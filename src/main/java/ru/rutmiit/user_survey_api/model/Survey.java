@@ -8,8 +8,8 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -37,23 +37,24 @@ public class Survey {
     @Type(type = "org.hibernate.type.TextType")
     private String description;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "usr_survey",
             joinColumns = @JoinColumn(name = "survey_id"),
             inverseJoinColumns = @JoinColumn(name = "usr_id"))
-    private Set<Usr> usrs = new LinkedHashSet<>();
+    private List<Usr> usrs = new ArrayList<>();
 
-    @OneToMany(mappedBy = "survey")
-    private Set<Question> questions = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "survey", cascade = CascadeType.ALL)
+    private List<Question> questions = new ArrayList<>();
 
-    public Survey(String title, LocalDate endDate, String description, Set<Question> questions) {
+    public Survey(Long id, String title, LocalDate endDate, String description, List<Question> questions) {
+        this.id = id;
         this.title = title;
         this.endDate = endDate;
         this.description = description;
         this.questions = questions;
     }
 
-    public Survey(Set<Question> questions) {
+    public Survey(List<Question> questions) {
         this.questions = questions;
     }
 }

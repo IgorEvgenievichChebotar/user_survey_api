@@ -5,13 +5,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
-
+/**
+ * A DTO for the {@link ru.rutmiit.user_survey_api.model.Answer} entity
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class SurveyDtoPassingRequest {
-    Set<QuestionDtoPassingRequest> questions = new LinkedHashSet<>();
+public class AnswerPassingDtoRequest {
+    private QuestionPassingDtoRequest question;
+    private String answer;
 }

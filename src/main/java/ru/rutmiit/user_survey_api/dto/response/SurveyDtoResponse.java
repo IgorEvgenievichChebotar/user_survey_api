@@ -6,8 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A DTO for the {@link ru.rutmiit.user_survey_api.model.Survey} entity
@@ -22,5 +22,5 @@ public class SurveyDtoResponse {
     private LocalDate startDate;
     private LocalDate endDate;
     private String description;
-    private Set<QuestionDtoResponse> questions = new LinkedHashSet<>();
+    private List<QuestionDtoResponse> questions = new ArrayList<>();
 }

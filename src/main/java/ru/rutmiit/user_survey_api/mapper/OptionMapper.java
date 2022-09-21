@@ -1,13 +1,13 @@
 package ru.rutmiit.user_survey_api.mapper;
 
-import ru.rutmiit.user_survey_api.dto.request.creating.OptionDtoCreatingRequest;
+import ru.rutmiit.user_survey_api.dto.request.creating.OptionDtoRequest;
 import ru.rutmiit.user_survey_api.dto.response.OptionDtoResponse;
 import ru.rutmiit.user_survey_api.model.Option;
 
 public class OptionMapper {
-    public static Option toOption(OptionDtoCreatingRequest creatingRequest) {
+    public static Option toOption(OptionDtoRequest request) {
         return new Option(
-                creatingRequest.getText()
+                request.getText()
         );
     }
 

@@ -19,12 +19,12 @@ public class UsrSurvey {
     private UsrSurveyId id;
 
     @MapsId("usrId")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "usr_id", nullable = false)
     private Usr usr;
 
     @MapsId("surveyId")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "survey_id", nullable = false)
     private Survey survey;
 

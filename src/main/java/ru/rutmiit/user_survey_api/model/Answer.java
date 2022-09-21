@@ -20,12 +20,12 @@ public class Answer {
     private AnswerId id;
 
     @MapsId("usrId")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "usr_id", nullable = false)
     private Usr usr;
 
     @MapsId("questionId")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "question_id", nullable = false)
     private Question question;
 
@@ -33,4 +33,8 @@ public class Answer {
     @Type(type = "org.hibernate.type.TextType")
     private String answer;
 
+    public Answer(Question question, String answer) {
+        this.question = question;
+        this.answer = answer;
+    }
 }

@@ -7,8 +7,8 @@ import lombok.Setter;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -30,10 +30,15 @@ public class Usr {
     @Type(type = "org.hibernate.type.TextType")
     private String email;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "usr_survey",
             joinColumns = @JoinColumn(name = "usr_id"),
             inverseJoinColumns = @JoinColumn(name = "survey_id"))
-    private Set<Survey> surveys = new LinkedHashSet<>();
+    private List<Survey> surveys = new ArrayList<>();
 
+    public Usr(Long id, String name, String email) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+    }
 }

@@ -8,9 +8,11 @@ import ru.rutmiit.user_survey_api.model.Survey;
 import ru.rutmiit.user_survey_api.repository.SurveyRepository;
 import ru.rutmiit.user_survey_api.service.SurveyService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static java.time.LocalDateTime.now;
+import static ru.rutmiit.user_survey_api.mapper.ReflectionFieldMapper.mapNonNullFields;
 
 @Service
 @Transactional(readOnly = true)
@@ -21,7 +23,7 @@ public class SurveyServiceImpl implements SurveyService {
     @Override
     public Survey findById(Long id) {
         return surveyRepository.findById(id)
-                .orElseThrow(() -> new SurveyNotFoundException("survey with this id was not found"));
+                .orElseThrow(SurveyNotFoundException::new);
     }
 
     @Override
@@ -48,15 +50,32 @@ public class SurveyServiceImpl implements SurveyService {
     @Override
     @Transactional
     public Survey create(Survey survey) {
+        if (survey.getStartDate() == null) survey.setStartDate(LocalDate.now());
+
+        survey.getQuestions().forEach(q -> {
+            q.setSurvey(survey);
+            q.getOptions().forEach(o -> o.setQuestion(q));
+        });
+
         return surveyRepository.save(survey);
     }
 
     @Override
     @Transactional
     public Survey update(Survey survey, Long id) {
-        if (surveyRepository.existsById(id))
-            return surveyRepository.save(survey);
-        else throw new SurveyNotFoundException("survey with this id was not found");
+        var foundedSurvey = this.findById(id);
+
+        mapNonNullFields(survey, foundedSurvey);
+
+        var questions = survey.getQuestions();
+        var foundedQuestions = foundedSurvey.getQuestions();
+        for (int i = 0; i < questions.size(); i++) {
+            var question = questions.get(i);
+            var foundedQuestion = foundedQuestions.get(i);
+            mapNonNullFields(question, foundedQuestion);
+        }
+
+        return surveyRepository.save(foundedSurvey);
     }
 
     @Override
@@ -64,6 +83,6 @@ public class SurveyServiceImpl implements SurveyService {
     public void deleteById(Long id) {
         if (surveyRepository.existsById(id))
             surveyRepository.deleteById(id);
-        else throw new SurveyNotFoundException("survey with this id was not found");
+        else throw new SurveyNotFoundException();
     }
 }

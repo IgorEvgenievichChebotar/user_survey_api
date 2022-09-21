@@ -7,8 +7,8 @@ import lombok.Setter;
 import ru.rutmiit.user_survey_api.model.Question;
 import ru.rutmiit.user_survey_api.model.enumeration.QuestionType;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A DTO for the {@link Question} entity
@@ -20,6 +20,6 @@ import java.util.Set;
 public class QuestionDtoResponse {
     private Long id;
     private String text;
-    private Set<OptionDtoResponse> options = new LinkedHashSet<>();
+    private List<OptionDtoResponse> options = new ArrayList<>();
     private QuestionType type;
 }

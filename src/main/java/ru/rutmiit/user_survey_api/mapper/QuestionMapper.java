@@ -1,19 +1,24 @@
 package ru.rutmiit.user_survey_api.mapper;
 
-import ru.rutmiit.user_survey_api.dto.request.creating.QuestionDtoCreatingRequest;
+import ru.rutmiit.user_survey_api.dto.request.creating.QuestionDtoRequest;
+import ru.rutmiit.user_survey_api.dto.request.passing.QuestionPassingDtoRequest;
 import ru.rutmiit.user_survey_api.dto.response.QuestionDtoResponse;
 import ru.rutmiit.user_survey_api.model.Question;
 
-import java.util.stream.Collectors;
-
 public class QuestionMapper {
-    public static Question toQuestion(QuestionDtoCreatingRequest creatingRequest) {
+    public static Question toQuestion(QuestionDtoRequest request) {
         return new Question(
-                creatingRequest.getText(),
-                creatingRequest.getType(),
-                creatingRequest.getOptions().stream()
+                request.getText(),
+                request.getType(),
+                request.getOptions().stream()
                         .map(OptionMapper::toOption)
-                        .collect(Collectors.toSet())
+                        .toList()
+        );
+    }
+
+    public static Question toQuestion(QuestionPassingDtoRequest request) {
+        return new Question(
+                request.getId()
         );
     }
 
@@ -23,7 +28,7 @@ public class QuestionMapper {
                 question.getText(),
                 question.getOptions().stream()
                         .map(OptionMapper::toResponse)
-                        .collect(Collectors.toSet()),
+                        .toList(),
                 question.getType()
         );
     }

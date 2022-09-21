@@ -6,8 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ru.rutmiit.user_survey_api.model.enumeration.QuestionType;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A DTO for the {@link ru.rutmiit.user_survey_api.model.Question} entity
@@ -16,8 +16,8 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-public class QuestionDtoCreatingRequest {
+public class QuestionDtoRequest {
     private String text;
     private QuestionType type;
-    private Set<OptionDtoCreatingRequest> options = new LinkedHashSet<>();
+    private List<OptionDtoRequest> options = new ArrayList<>();
 }
