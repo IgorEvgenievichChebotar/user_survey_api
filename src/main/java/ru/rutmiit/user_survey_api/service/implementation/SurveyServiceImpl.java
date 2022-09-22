@@ -9,7 +9,6 @@ import ru.rutmiit.user_survey_api.model.Survey;
 import ru.rutmiit.user_survey_api.model.Usr;
 import ru.rutmiit.user_survey_api.repository.SurveyRepository;
 import ru.rutmiit.user_survey_api.service.AnswerService;
-import ru.rutmiit.user_survey_api.service.QuestionService;
 import ru.rutmiit.user_survey_api.service.SurveyService;
 import ru.rutmiit.user_survey_api.service.UsrService;
 
@@ -25,7 +24,6 @@ import static ru.rutmiit.user_survey_api.mapper.ReflectionFieldMapper.mapNonNull
 public class SurveyServiceImpl implements SurveyService {
     private final SurveyRepository surveyRepository;
     private final AnswerService answerService;
-    private final QuestionService questionService;
     private final UsrService usrService;
 
     @Override
@@ -63,7 +61,14 @@ public class SurveyServiceImpl implements SurveyService {
 
     @Override
     public List<Survey> findPassedSurveysByUserId(Long id) {
-        return surveyRepository.findPassedSurveysByUserId(id);
+        var resultList = surveyRepository.findPassedSurveysByUserId(id);
+
+        resultList.forEach(
+                s -> s.getQuestions().forEach(
+                        q -> q.setAnswers(answerService.findByUserId(id))
+                ));
+
+        return resultList;
     }
 
     @Override

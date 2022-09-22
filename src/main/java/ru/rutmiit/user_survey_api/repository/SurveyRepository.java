@@ -7,7 +7,7 @@ import ru.rutmiit.user_survey_api.model.Survey;
 import java.util.List;
 
 public interface SurveyRepository extends JpaRepository<Survey, Long> {
-    @Query("select a.survey " +
+    @Query("select distinct a.survey " +
             "from Answer a " +
             "where a.usr.id = ?1")
     List<Survey> findPassedSurveysByUserId(Long id);

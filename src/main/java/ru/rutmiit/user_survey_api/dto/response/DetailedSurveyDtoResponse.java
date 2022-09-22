@@ -19,5 +19,5 @@ public class DetailedSurveyDtoResponse {
     private LocalDate startDate;
     private LocalDate endDate;
     private String description;
-    private List<QuestionWithAnswerDtoResponse> questions = new ArrayList<>();
+    private List<QuestionsWithAnswerDtoResponse> questions = new ArrayList<>();
 }

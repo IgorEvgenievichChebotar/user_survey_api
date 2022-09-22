@@ -17,10 +17,10 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class QuestionWithAnswerDtoResponse {
+public class QuestionsWithAnswerDtoResponse {
     private Long id;
     private String text;
     private List<OptionDtoResponse> options = new ArrayList<>();
     private QuestionType type;
-    private AnswerDtoResponse answer;
+    private String answer;
 }

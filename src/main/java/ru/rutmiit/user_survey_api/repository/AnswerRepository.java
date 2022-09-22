@@ -7,6 +7,6 @@ import ru.rutmiit.user_survey_api.model.Answer;
 import java.util.List;
 
 public interface AnswerRepository extends JpaRepository<Answer, Long> {
-    @Query("select a.answer from Answer a where a.usr.id = ?1")
+    @Query("select a from Answer a where a.usr.id = ?1")
     List<Answer> findByUserId(Long id);
 }

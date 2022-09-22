@@ -37,4 +37,9 @@ public class Answer {
     public Answer(String answer) {
         this.answer = answer;
     }
+
+    @Override
+    public String toString() {
+        return answer;
+    }
 }

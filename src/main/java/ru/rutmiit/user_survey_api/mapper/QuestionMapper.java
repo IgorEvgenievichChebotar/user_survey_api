@@ -1,9 +1,9 @@
 package ru.rutmiit.user_survey_api.mapper;
 
 import ru.rutmiit.user_survey_api.dto.request.creating.QuestionDtoRequest;
-import ru.rutmiit.user_survey_api.dto.response.AnswerDtoResponse;
 import ru.rutmiit.user_survey_api.dto.response.QuestionDtoResponse;
-import ru.rutmiit.user_survey_api.dto.response.QuestionWithAnswerDtoResponse;
+import ru.rutmiit.user_survey_api.dto.response.QuestionsWithAnswerDtoResponse;
+import ru.rutmiit.user_survey_api.model.Answer;
 import ru.rutmiit.user_survey_api.model.Question;
 
 public class QuestionMapper {
@@ -28,8 +28,8 @@ public class QuestionMapper {
         );
     }
 
-    public static QuestionWithAnswerDtoResponse toDetailedResponse(Question question) {
-        return new QuestionWithAnswerDtoResponse(
+    public static QuestionsWithAnswerDtoResponse toDetailedResponse(Question question) {
+        return new QuestionsWithAnswerDtoResponse(
                 question.getId(),
                 question.getText(),
                 question.getOptions().stream()
@@ -38,9 +38,9 @@ public class QuestionMapper {
                 question.getType(),
                 question.getAnswers().stream()
                         .filter(a -> a.getQuestion().getId().equals(question.getId()))
-                        .map(AnswerMapper::toResponse)
                         .findFirst()
-                        .orElse(new AnswerDtoResponse())
+                        .orElse(new Answer())
+                        .toString()
         );
     }
 

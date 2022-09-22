@@ -18,9 +18,12 @@ public class AnswerServiceImpl implements AnswerService {
     @Override
     @Transactional
     public void commitAll(List<Answer> answers) {
-/*        var answersWithPk = answers.stream()
-                .peek(a -> a.setId(new AnswerId(a.getUsr().getId(), a.getQuestion().getId())))
-                .toList();*/
         answerRepository.saveAll(answers);
+    }
+
+    @Override
+    @Transactional
+    public List<Answer> findByUserId(Long id) {
+        return answerRepository.findByUserId(id);
     }
 }

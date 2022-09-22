@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface AnswerService {
     void commitAll(List<Answer> answers);
+
+    List<Answer> findByUserId(Long id);
 }
