@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 
@@ -15,26 +14,27 @@ import javax.persistence.*;
 @Entity
 @Table(name = "answer")
 public class Answer {
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @EmbeddedId
-    private AnswerId id;
+    @Column(name = "id", nullable = false)
+    private Long id;
 
-    @MapsId("usrId")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "usr_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "usr_id")
     private Usr usr;
 
-    @MapsId("questionId")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "question_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "survey_id")
+    private Survey survey;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "question_id")
     private Question question;
 
     @Column(name = "answer")
-    @Type(type = "org.hibernate.type.TextType")
     private String answer;
 
-    public Answer(Question question, String answer) {
-        this.question = question;
+    public Answer(String answer) {
         this.answer = answer;
     }
 }

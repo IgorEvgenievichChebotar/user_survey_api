@@ -1,15 +1,19 @@
 package ru.rutmiit.user_survey_api.mapper;
 
-import ru.rutmiit.user_survey_api.dto.request.passing.AnswerPassingDtoRequest;
+import ru.rutmiit.user_survey_api.dto.request.passing.AnswerDtoRequest;
+import ru.rutmiit.user_survey_api.dto.response.AnswerDtoResponse;
 import ru.rutmiit.user_survey_api.model.Answer;
 
-import static ru.rutmiit.user_survey_api.mapper.QuestionMapper.toQuestion;
-
 public class AnswerMapper {
-    public static Answer toAnswer(AnswerPassingDtoRequest request){
+    public static Answer toAnswer(AnswerDtoRequest request){
         return new Answer(
-                toQuestion(request.getQuestion()),
                 request.getAnswer()
+        );
+    }
+
+    public static AnswerDtoResponse toResponse(Answer answer) {
+        return new AnswerDtoResponse(
+                answer.getAnswer()
         );
     }
 }

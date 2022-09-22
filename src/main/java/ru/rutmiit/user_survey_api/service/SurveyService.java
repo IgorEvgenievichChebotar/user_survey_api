@@ -1,6 +1,8 @@
 package ru.rutmiit.user_survey_api.service;
 
+import ru.rutmiit.user_survey_api.model.Answer;
 import ru.rutmiit.user_survey_api.model.Survey;
+import ru.rutmiit.user_survey_api.model.Usr;
 
 import java.util.List;
 
@@ -12,7 +14,7 @@ public interface SurveyService {
 
     List<Survey> findAll();
 
-    void pass(Survey survey, Long id);
+    void pass(Long surveyId, Usr user, List<Answer> answers);
 
     //-------------------------------------------------------------------//
 

@@ -4,12 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import ru.rutmiit.user_survey_api.model.enumeration.QuestionType;
 import ru.rutmiit.user_survey_api.util.PostgreSQLEnumType;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,22 +33,24 @@ public class Question {
     @JoinColumn(name = "survey_id")
     private Survey survey;
 
+    @NotNull
     @Column(name = "text", nullable = false)
-    @Type(type = "org.hibernate.type.TextType")
     private String text;
 
-    @Column(name = "type", columnDefinition = "question_type")
-    @Enumerated(EnumType.STRING)
-    @Type(type = "pgsql_enum")
-    private QuestionType type;
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+    private List<Answer> answers = new ArrayList<>();
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     private List<Option> options = new ArrayList<>();
 
+    @Column(name = "type", columnDefinition = "question_type")
+    @Enumerated(EnumType.STRING)
+    private QuestionType type;
+
     public Question(String text, QuestionType type, List<Option> options) {
         this.text = text;
-        this.type = type;
         this.options = options;
+        this.type = type;
     }
 
     public Question(Long id) {

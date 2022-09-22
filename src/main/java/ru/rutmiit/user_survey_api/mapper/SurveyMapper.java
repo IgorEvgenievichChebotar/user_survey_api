@@ -1,6 +1,7 @@
 package ru.rutmiit.user_survey_api.mapper;
 
 import ru.rutmiit.user_survey_api.dto.request.creating.SurveyDtoRequest;
+import ru.rutmiit.user_survey_api.dto.response.DetailedSurveyDtoResponse;
 import ru.rutmiit.user_survey_api.dto.response.SurveyDtoResponse;
 import ru.rutmiit.user_survey_api.model.Survey;
 
@@ -27,6 +28,19 @@ public class SurveyMapper {
                 survey.getDescription(),
                 survey.getQuestions().stream()
                         .map(QuestionMapper::toResponse)
+                        .toList()
+        );
+    }
+
+    public static DetailedSurveyDtoResponse toDetailedResponse(Survey survey) {
+        return new DetailedSurveyDtoResponse(
+                survey.getId(),
+                survey.getTitle(),
+                survey.getStartDate(),
+                survey.getEndDate(),
+                survey.getDescription(),
+                survey.getQuestions().stream()
+                        .map(QuestionMapper::toDetailedResponse)
                         .toList()
         );
     }

@@ -4,9 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,25 +23,21 @@ public class Survey {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @NotNull
     @Column(name = "title", nullable = false)
-    @Type(type = "org.hibernate.type.TextType")
     private String title;
 
-    @Column(name = "start_date", nullable = false)
+    @Column(name = "start_date")
     private LocalDate startDate;
 
     @Column(name = "end_date")
     private LocalDate endDate;
 
     @Column(name = "description")
-    @Type(type = "org.hibernate.type.TextType")
     private String description;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "usr_survey",
-            joinColumns = @JoinColumn(name = "survey_id"),
-            inverseJoinColumns = @JoinColumn(name = "usr_id"))
-    private List<Usr> usrs = new ArrayList<>();
+    @OneToMany(mappedBy = "survey", cascade = CascadeType.ALL)
+    private List<Answer> answers = new ArrayList<>();
 
     @OneToMany(mappedBy = "survey", cascade = CascadeType.ALL)
     private List<Question> questions = new ArrayList<>();
@@ -54,7 +50,7 @@ public class Survey {
         this.questions = questions;
     }
 
-    public Survey(List<Question> questions) {
-        this.questions = questions;
+    public Survey(List<Answer> answers) {
+        this.answers = answers;
     }
 }

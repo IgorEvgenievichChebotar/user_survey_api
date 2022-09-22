@@ -6,13 +6,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * A DTO for the {@link ru.rutmiit.user_survey_api.model.Answer} entity
+ * A DTO for the {@link ru.rutmiit.user_survey_api.model.Usr} entity
  */
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class AnswerPassingDtoRequest {
-    private QuestionPassingDtoRequest question;
-    private String answer;
+public class UsrDtoRequest {
+    private Long id;
+    private String name;
+    private String email;
 }

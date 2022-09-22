@@ -9,12 +9,16 @@ import ru.rutmiit.user_survey_api.dto.response.SurveyDtoResponse;
 import ru.rutmiit.user_survey_api.mapper.AnswerMapper;
 import ru.rutmiit.user_survey_api.mapper.QuestionMapper;
 import ru.rutmiit.user_survey_api.mapper.SurveyMapper;
+import ru.rutmiit.user_survey_api.model.Question;
 import ru.rutmiit.user_survey_api.model.Survey;
 import ru.rutmiit.user_survey_api.service.AnswerService;
 import ru.rutmiit.user_survey_api.service.QuestionService;
 import ru.rutmiit.user_survey_api.service.SurveyService;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import static ru.rutmiit.user_survey_api.mapper.SurveyMapper.toResponse;
 import static ru.rutmiit.user_survey_api.mapper.SurveyMapper.toSurvey;
@@ -29,7 +33,7 @@ public class SurveyController {
     private final AnswerService answerService;
 
     @GetMapping
-    public Iterable<SurveyDtoResponse> findMany(
+    public Iterable<Object> findMany(
             @RequestParam(
                     value = "active",
                     required = false,
@@ -42,12 +46,16 @@ public class SurveyController {
 
         if (active)
             resultList.retainAll(surveyService.findActive());
-        if (user_id != null)
+        if (user_id != null) {
             resultList.retainAll(surveyService.findPassedSurveysByUserId(user_id));
+            return resultList.stream()
+                    .map(SurveyMapper::toDetailedResponse)
+                    .collect(Collectors.toList());
+        }
 
         return resultList.stream()
                 .map(SurveyMapper::toResponse)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
@@ -79,19 +87,24 @@ public class SurveyController {
     }
 
     @PostMapping("/{id}/pass")
-    public String pass(@PathVariable("id") Long id,
-                       @RequestBody PassingDtoRequest request) {
+    public Map<String, String> pass(@PathVariable("id") Long surveyId,
+                                    @RequestBody PassingDtoRequest request) {
 
         var user = toUsr(request.getUser());
-
+        List<Question> questions = new ArrayList<>();
         var answers = request.getAnswers().stream()
+                .peek(answerDto -> questions.add(questionService.findById(answerDto.getQuestionId())))
                 .map(AnswerMapper::toAnswer)
-                .peek(a -> a.setUsr(user))
                 .toList();
 
-        answerService.commitAll(answers);
+        for (int i = 0; i < answers.size(); i++) {
+            var answer = answers.get(i);
+            answer.setQuestion(questions.get(i));
+        }
 
-        return "the answers to the questions were successfully published";
+        surveyService.pass(surveyId, user, answers);
+
+        return Map.of("message", "the answers to the questions were successfully published");
     }
 
     @PatchMapping("/{id}")

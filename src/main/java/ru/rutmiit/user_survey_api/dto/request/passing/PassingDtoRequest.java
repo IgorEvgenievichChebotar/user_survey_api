@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -12,6 +13,6 @@ import java.util.List;
 @Getter
 @Setter
 public class PassingDtoRequest {
-    private UsrPassingDtoRequest user;
-    private List<AnswerPassingDtoRequest> answers;
+    private UsrDtoRequest user;
+    private List<AnswerDtoRequest> answers = new ArrayList<>();
 }

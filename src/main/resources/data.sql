@@ -18,9 +18,3 @@ VALUES (1, 'Путин'),
 insert into usr(name, email)
 VALUES ('IVAN', 'ivan@yandex.ru'),
        ('MARIA', 'maria@mail.ru');
-
-insert into usr_survey(usr_id, survey_id)
-VALUES (1, 1),
-       (1, 2),
-       (2, 2),
-       (2, 1);

@@ -4,9 +4,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.rutmiit.user_survey_api.exception.SurveyNotFoundException;
+import ru.rutmiit.user_survey_api.model.Answer;
 import ru.rutmiit.user_survey_api.model.Survey;
+import ru.rutmiit.user_survey_api.model.Usr;
 import ru.rutmiit.user_survey_api.repository.SurveyRepository;
+import ru.rutmiit.user_survey_api.service.AnswerService;
+import ru.rutmiit.user_survey_api.service.QuestionService;
 import ru.rutmiit.user_survey_api.service.SurveyService;
+import ru.rutmiit.user_survey_api.service.UsrService;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -19,6 +24,9 @@ import static ru.rutmiit.user_survey_api.mapper.ReflectionFieldMapper.mapNonNull
 @RequiredArgsConstructor
 public class SurveyServiceImpl implements SurveyService {
     private final SurveyRepository surveyRepository;
+    private final AnswerService answerService;
+    private final QuestionService questionService;
+    private final UsrService usrService;
 
     @Override
     public Survey findById(Long id) {
@@ -39,7 +47,18 @@ public class SurveyServiceImpl implements SurveyService {
     }
 
     @Override
-    public void pass(Survey survey, Long id) {
+    @Transactional
+    public void pass(Long surveyId, Usr user, List<Answer> answers) {
+        var foundedSurvey = this.findById(surveyId);
+
+        var savedUser = usrService.save(user);
+
+        answers.forEach(a -> {
+            a.setUsr(savedUser);
+            a.setSurvey(foundedSurvey);
+        });
+
+        answerService.commitAll(answers);
     }
 
     @Override
