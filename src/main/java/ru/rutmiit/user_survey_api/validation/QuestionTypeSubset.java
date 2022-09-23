@@ -1,5 +1,7 @@
 package ru.rutmiit.user_survey_api.validation;
 
+import ru.rutmiit.user_survey_api.model.enumeration.QuestionType;
+
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.Documented;
@@ -12,10 +14,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target(FIELD)
 @Retention(RUNTIME)
 @Documented
-@Constraint(validatedBy = ValueOfEnumValidator.class)
-public @interface ValueOfEnum {
-    Class<? extends Enum<?>> enumClass();
-    String message() default "must be any of enum {enumClass}";
+@Constraint(validatedBy = QuestionTypeSubsetValidator.class)
+public @interface QuestionTypeSubset {
+    QuestionType[] anyOf();
+    String message() default "must be any of {anyOf}";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

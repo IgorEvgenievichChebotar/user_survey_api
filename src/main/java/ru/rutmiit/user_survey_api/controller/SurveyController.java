@@ -1,12 +1,14 @@
 package ru.rutmiit.user_survey_api.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.rutmiit.user_survey_api.dto.request.creating.QuestionDtoRequest;
 import ru.rutmiit.user_survey_api.dto.request.creating.SurveyDtoRequest;
 import ru.rutmiit.user_survey_api.dto.request.passing.PassingDtoRequest;
 import ru.rutmiit.user_survey_api.dto.response.SurveyDtoResponse;
+import ru.rutmiit.user_survey_api.exception.SurveyNotCreatedException;
 import ru.rutmiit.user_survey_api.mapper.AnswerMapper;
 import ru.rutmiit.user_survey_api.mapper.QuestionMapper;
 import ru.rutmiit.user_survey_api.mapper.SurveyMapper;
@@ -16,6 +18,7 @@ import ru.rutmiit.user_survey_api.model.Survey;
 import ru.rutmiit.user_survey_api.service.QuestionService;
 import ru.rutmiit.user_survey_api.service.SurveyService;
 import ru.rutmiit.user_survey_api.util.CollectionUtils;
+import ru.rutmiit.user_survey_api.util.ExceptionMessageBuilder;
 import ru.rutmiit.user_survey_api.validation.OnCreate;
 import ru.rutmiit.user_survey_api.validation.OnUpdate;
 
@@ -67,7 +70,13 @@ public class SurveyController {
     }
 
     @PostMapping
-    public SurveyDtoResponse create(@RequestBody @Validated(OnCreate.class) SurveyDtoRequest request) {
+    public SurveyDtoResponse create(@RequestBody @Validated(OnCreate.class) SurveyDtoRequest request,
+                                    BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            var msg = ExceptionMessageBuilder.buildMessage(bindingResult);
+            throw new SurveyNotCreatedException(msg);
+        }
 
         var survey = toSurvey(request);
 

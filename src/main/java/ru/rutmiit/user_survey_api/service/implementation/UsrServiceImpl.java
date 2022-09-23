@@ -17,8 +17,13 @@ public class UsrServiceImpl implements UsrService {
 
     @Override
     public Usr update(Usr usr) {
-        var user = usrRepository.findById(usr.getId()).orElse(new Usr());
-        mapNonNullFields(usr, user);
-        return usrRepository.save(user);
+        if (usr.getId() == null)
+            return usrRepository.save(new Usr());
+        else {
+            var user = usrRepository.findById(usr.getId())
+                    .orElse(new Usr());
+            mapNonNullFields(usr, user);
+            return usrRepository.save(user);
+        }
     }
 }

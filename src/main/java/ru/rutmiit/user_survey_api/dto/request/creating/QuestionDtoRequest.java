@@ -7,13 +7,16 @@ import lombok.Setter;
 import ru.rutmiit.user_survey_api.model.enumeration.QuestionType;
 import ru.rutmiit.user_survey_api.validation.OnCreate;
 import ru.rutmiit.user_survey_api.validation.OnUpdate;
-import ru.rutmiit.user_survey_api.validation.ValueOfEnum;
+import ru.rutmiit.user_survey_api.validation.QuestionTypeSubset;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
+
+import static ru.rutmiit.user_survey_api.model.enumeration.QuestionType.*;
 
 /**
  * A DTO for the {@link ru.rutmiit.user_survey_api.model.Question} entity
@@ -27,8 +30,8 @@ public class QuestionDtoRequest {
     @Size(min = 1, max = 255, message = "Incorrect question.text length", groups = {OnCreate.class, OnUpdate.class})
     private String text;
 
-    @NotBlank(message = "question.type should not be blank", groups = OnCreate.class)
-    @ValueOfEnum(enumClass = QuestionType.class, groups = {OnCreate.class, OnUpdate.class})
+    @NotNull(message = "question.type should not be null", groups = OnCreate.class)
+    @QuestionTypeSubset(anyOf = {TEXT, MULTIPLE_OPTIONS, ONE_OPTION}, groups = {OnCreate.class, OnUpdate.class})
     private QuestionType type;
 
     @Valid

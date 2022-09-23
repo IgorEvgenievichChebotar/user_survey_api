@@ -10,6 +10,7 @@ import ru.rutmiit.user_survey_api.validation.OnUpdate;
 import javax.validation.Valid;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -27,8 +28,8 @@ public class SurveyDtoRequest {
     @Size(min = 1, max = 255, message = "Incorrect survey.title length", groups = {OnCreate.class, OnUpdate.class})
     private String title;
 
-    @NotBlank(message = "survey.endDate should not be blank", groups = OnCreate.class)
-    @Future(groups = {OnCreate.class, OnUpdate.class})
+    @NotNull(message = "survey.endDate should not be null", groups = OnCreate.class)
+    @Future(message = "survey.date should be a date that has not yet occurred", groups = {OnCreate.class, OnUpdate.class})
     private LocalDate endDate;
 
     @NotBlank(message = "survey.description should not be blank", groups = OnCreate.class)
