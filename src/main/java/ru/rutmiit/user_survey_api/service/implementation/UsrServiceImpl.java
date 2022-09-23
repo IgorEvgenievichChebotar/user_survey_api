@@ -7,7 +7,7 @@ import ru.rutmiit.user_survey_api.model.Usr;
 import ru.rutmiit.user_survey_api.repository.UsrRepository;
 import ru.rutmiit.user_survey_api.service.UsrService;
 
-import static ru.rutmiit.user_survey_api.mapper.ReflectionFieldMapper.mapNonNullFields;
+import static ru.rutmiit.user_survey_api.mapper.FieldMapper.mapNonNullFields;
 
 @Service
 @Transactional(readOnly = true)

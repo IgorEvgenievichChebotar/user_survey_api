@@ -9,11 +9,12 @@ import ru.rutmiit.user_survey_api.dto.response.SurveyDtoResponse;
 import ru.rutmiit.user_survey_api.mapper.AnswerMapper;
 import ru.rutmiit.user_survey_api.mapper.QuestionMapper;
 import ru.rutmiit.user_survey_api.mapper.SurveyMapper;
+import ru.rutmiit.user_survey_api.model.Answer;
 import ru.rutmiit.user_survey_api.model.Question;
 import ru.rutmiit.user_survey_api.model.Survey;
-import ru.rutmiit.user_survey_api.service.AnswerService;
 import ru.rutmiit.user_survey_api.service.QuestionService;
 import ru.rutmiit.user_survey_api.service.SurveyService;
+import ru.rutmiit.user_survey_api.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +31,6 @@ import static ru.rutmiit.user_survey_api.mapper.UsrMapper.toUsr;
 public class SurveyController {
     private final SurveyService surveyService;
     private final QuestionService questionService;
-    private final AnswerService answerService;
 
     @GetMapping
     public Iterable<Object> findMany(
@@ -97,10 +97,7 @@ public class SurveyController {
                 .map(AnswerMapper::toAnswer)
                 .toList();
 
-        for (int i = 0; i < answers.size(); i++) {
-            var answer = answers.get(i);
-            answer.setQuestion(questions.get(i));
-        }
+        CollectionUtils.zip(answers, questions, Answer::setQuestion);
 
         surveyService.pass(surveyId, user, answers);
 

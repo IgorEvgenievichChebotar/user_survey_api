@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.rutmiit.user_survey_api.exception.SurveyNotFoundException;
+import ru.rutmiit.user_survey_api.mapper.FieldMapper;
 import ru.rutmiit.user_survey_api.model.Answer;
 import ru.rutmiit.user_survey_api.model.Survey;
 import ru.rutmiit.user_survey_api.model.Usr;
@@ -11,12 +12,13 @@ import ru.rutmiit.user_survey_api.repository.SurveyRepository;
 import ru.rutmiit.user_survey_api.service.AnswerService;
 import ru.rutmiit.user_survey_api.service.SurveyService;
 import ru.rutmiit.user_survey_api.service.UsrService;
+import ru.rutmiit.user_survey_api.util.CollectionUtils;
 
 import java.time.LocalDate;
 import java.util.List;
 
 import static java.time.LocalDateTime.now;
-import static ru.rutmiit.user_survey_api.mapper.ReflectionFieldMapper.mapNonNullFields;
+import static ru.rutmiit.user_survey_api.mapper.FieldMapper.mapNonNullFields;
 
 @Service
 @Transactional(readOnly = true)
@@ -63,9 +65,9 @@ public class SurveyServiceImpl implements SurveyService {
     public List<Survey> findPassedSurveysByUserId(Long id) {
         var resultList = surveyRepository.findPassedSurveysByUserId(id);
 
-        resultList.forEach(
-                s -> s.getQuestions().forEach(
-                        q -> q.setAnswers(answerService.findByUserId(id))
+        resultList.forEach(s -> s
+                .getQuestions().forEach(q -> q
+                        .setAnswers(answerService.findByUserId(id))
                 ));
 
         return resultList;
@@ -78,7 +80,8 @@ public class SurveyServiceImpl implements SurveyService {
 
         survey.getQuestions().forEach(q -> {
             q.setSurvey(survey);
-            q.getOptions().forEach(o -> o.setQuestion(q));
+            q.getOptions().forEach(o -> o
+                    .setQuestion(q));
         });
 
         return surveyRepository.save(survey);
@@ -94,12 +97,7 @@ public class SurveyServiceImpl implements SurveyService {
         var questions = survey.getQuestions();
         var foundedQuestions = foundedSurvey.getQuestions();
 
-        for (int i = 0; i < questions.size(); i++) {
-            var question = questions.get(i);
-            var foundedQuestion = foundedQuestions.get(i);
-
-            mapNonNullFields(question, foundedQuestion);
-        }
+        CollectionUtils.zip(questions, foundedQuestions, FieldMapper::mapNonNullFields);
 
         return surveyRepository.save(foundedSurvey);
     }

@@ -11,7 +11,7 @@ import ru.rutmiit.user_survey_api.service.SurveyService;
 
 import java.util.List;
 
-import static ru.rutmiit.user_survey_api.mapper.ReflectionFieldMapper.mapNonNullFields;
+import static ru.rutmiit.user_survey_api.mapper.FieldMapper.mapNonNullFields;
 
 @Service
 @Transactional(readOnly = true)

@@ -4,7 +4,7 @@ import lombok.SneakyThrows;
 
 import java.util.Collection;
 
-public class ReflectionFieldMapper {
+public class FieldMapper {
     @SneakyThrows
     public static void mapNonNullFields(Object source, Object target) {
 
