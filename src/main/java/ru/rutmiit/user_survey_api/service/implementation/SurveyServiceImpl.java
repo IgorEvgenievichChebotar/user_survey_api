@@ -49,10 +49,10 @@ public class SurveyServiceImpl implements SurveyService {
     public void pass(Long surveyId, Usr user, List<Answer> answers) {
         var foundedSurvey = this.findById(surveyId);
 
-        var savedUser = usrService.save(user);
+        var savedOrUpdatedUser = usrService.update(user);
 
         answers.forEach(a -> {
-            a.setUsr(savedUser);
+            a.setUsr(savedOrUpdatedUser);
             a.setSurvey(foundedSurvey);
         });
 
@@ -93,9 +93,11 @@ public class SurveyServiceImpl implements SurveyService {
 
         var questions = survey.getQuestions();
         var foundedQuestions = foundedSurvey.getQuestions();
+
         for (int i = 0; i < questions.size(); i++) {
             var question = questions.get(i);
             var foundedQuestion = foundedQuestions.get(i);
+
             mapNonNullFields(question, foundedQuestion);
         }
 

@@ -23,9 +23,8 @@ public class ReflectionFieldMapper {
                 var sourceFieldValue = sourceField.get(source);
                 var targetFieldValue = targetField.get(target);
 
-                if (Collection.class.isAssignableFrom(sourceField.getType())) {
-                    break;
-                }
+                if (Collection.class.isAssignableFrom(sourceField.getType()))
+                    continue;
 
                 if (sourceFieldValue != null)
                     targetField.set(target, sourceFieldValue);
