@@ -9,7 +9,6 @@ public class SurveyMapper {
 
     public static Survey toSurvey(SurveyDtoRequest request) {
         return new Survey(
-                request.getId(),
                 request.getTitle(),
                 request.getEndDate(),
                 request.getDescription(),

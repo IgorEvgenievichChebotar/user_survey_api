@@ -1,6 +1,7 @@
 package ru.rutmiit.user_survey_api.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.rutmiit.user_survey_api.dto.request.creating.QuestionDtoRequest;
 import ru.rutmiit.user_survey_api.dto.request.creating.SurveyDtoRequest;
@@ -15,7 +16,10 @@ import ru.rutmiit.user_survey_api.model.Survey;
 import ru.rutmiit.user_survey_api.service.QuestionService;
 import ru.rutmiit.user_survey_api.service.SurveyService;
 import ru.rutmiit.user_survey_api.util.CollectionUtils;
+import ru.rutmiit.user_survey_api.validation.OnCreate;
+import ru.rutmiit.user_survey_api.validation.OnUpdate;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -63,7 +67,7 @@ public class SurveyController {
     }
 
     @PostMapping
-    public SurveyDtoResponse create(@RequestBody SurveyDtoRequest request) {
+    public SurveyDtoResponse create(@RequestBody @Validated(OnCreate.class) SurveyDtoRequest request) {
 
         var survey = toSurvey(request);
 
@@ -87,7 +91,7 @@ public class SurveyController {
 
     @PostMapping("/{id}/pass")
     public String pass(@PathVariable("id") Long surveyId,
-                                    @RequestBody PassingDtoRequest request) {
+                       @RequestBody @Valid PassingDtoRequest request) {
 
         var user = toUsr(request.getUser());
         var questions = new ArrayList<Question>();
@@ -105,7 +109,7 @@ public class SurveyController {
 
     @PatchMapping("/{id}")
     public SurveyDtoResponse update(@PathVariable("id") Long id,
-                                    @RequestBody SurveyDtoRequest request) {
+                                    @RequestBody @Validated(OnUpdate.class) SurveyDtoRequest request) {
 
         var survey = toSurvey(request);
 

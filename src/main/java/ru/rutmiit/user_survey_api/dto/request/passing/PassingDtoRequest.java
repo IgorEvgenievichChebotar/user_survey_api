@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,9 @@ import java.util.List;
 @Getter
 @Setter
 public class PassingDtoRequest {
+    @Valid
     private UsrDtoRequest user;
+
+    @Valid
     private List<AnswerDtoRequest> answers = new ArrayList<>();
 }

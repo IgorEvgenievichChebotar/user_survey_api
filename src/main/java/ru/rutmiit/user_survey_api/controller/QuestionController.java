@@ -1,10 +1,13 @@
 package ru.rutmiit.user_survey_api.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.rutmiit.user_survey_api.dto.request.creating.QuestionDtoRequest;
 import ru.rutmiit.user_survey_api.dto.response.QuestionDtoResponse;
 import ru.rutmiit.user_survey_api.service.QuestionService;
+import ru.rutmiit.user_survey_api.validation.OnCreate;
+import ru.rutmiit.user_survey_api.validation.OnUpdate;
 
 import static ru.rutmiit.user_survey_api.mapper.QuestionMapper.toQuestion;
 import static ru.rutmiit.user_survey_api.mapper.QuestionMapper.toResponse;
@@ -16,7 +19,7 @@ public class QuestionController {
     private final QuestionService questionService;
 
     @PostMapping
-    public QuestionDtoResponse create(@RequestBody QuestionDtoRequest request,
+    public QuestionDtoResponse create(@RequestBody @Validated(OnCreate.class) QuestionDtoRequest request,
                                       @RequestParam(
                                               value = "survey_id",
                                               required = false) Long id) {
@@ -29,7 +32,7 @@ public class QuestionController {
     }
 
     @PatchMapping("/{id}")
-    public QuestionDtoResponse update(@RequestBody QuestionDtoRequest request,
+    public QuestionDtoResponse update(@RequestBody @Validated(OnUpdate.class) QuestionDtoRequest request,
                                       @PathVariable("id") Long id) {
 
         var question = toQuestion(request);

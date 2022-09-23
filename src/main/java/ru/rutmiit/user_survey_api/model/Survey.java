@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +22,6 @@ public class Survey {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @NotNull
     @Column(name = "title", nullable = false)
     private String title;
 
@@ -42,15 +40,11 @@ public class Survey {
     @OneToMany(mappedBy = "survey", cascade = CascadeType.ALL)
     private List<Question> questions = new ArrayList<>();
 
-    public Survey(Long id, String title, LocalDate endDate, String description, List<Question> questions) {
-        this.id = id;
+    public Survey(String title, LocalDate endDate, String description, List<Question> questions) {
         this.title = title;
         this.endDate = endDate;
         this.description = description;
         this.questions = questions;
     }
 
-    public Survey(List<Answer> answers) {
-        this.answers = answers;
-    }
 }

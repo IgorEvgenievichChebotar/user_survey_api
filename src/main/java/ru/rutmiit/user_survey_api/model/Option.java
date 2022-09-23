@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,7 +23,6 @@ public class Option {
     @JoinColumn(name = "question_id")
     private Question question;
 
-    @NotNull
     @Column(name = "text", nullable = false)
     private String text;
 

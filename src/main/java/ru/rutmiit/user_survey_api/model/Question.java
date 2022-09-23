@@ -10,7 +10,6 @@ import ru.rutmiit.user_survey_api.model.enumeration.QuestionType;
 import ru.rutmiit.user_survey_api.util.PostgreSQLEnumType;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +33,6 @@ public class Question {
     @JoinColumn(name = "survey_id")
     private Survey survey;
 
-    @NotNull
     @Column(name = "text", nullable = false)
     private String text;
 
