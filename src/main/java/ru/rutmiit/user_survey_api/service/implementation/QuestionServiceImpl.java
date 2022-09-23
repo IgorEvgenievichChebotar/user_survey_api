@@ -40,6 +40,11 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
+    public List<Question> createAll(List<Question> questions) {
+        return questionRepository.saveAll(questions);
+    }
+
+    @Override
     @Transactional
     public Question update(Question question, Long id) {
         var foundedQuestion = this.findById(id);

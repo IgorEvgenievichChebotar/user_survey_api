@@ -76,7 +76,8 @@ public class SurveyServiceImpl implements SurveyService {
     @Override
     @Transactional
     public Survey create(Survey survey) {
-        if (survey.getStartDate() == null) survey.setStartDate(LocalDate.now());
+        if (survey.getStartDate() == null)
+            survey.setStartDate(LocalDate.now());
 
         survey.getQuestions().forEach(q -> {
             q.setSurvey(survey);

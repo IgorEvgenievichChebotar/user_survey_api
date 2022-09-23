@@ -13,6 +13,8 @@ public interface QuestionService {
 
     Question create(Question question, Long surveyId);
 
+    List<Question> createAll(List<Question> questions);
+
     Question update(Question question, Long id);
 
     void deleteById(Long id);

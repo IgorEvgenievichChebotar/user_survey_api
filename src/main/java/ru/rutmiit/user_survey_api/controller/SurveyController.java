@@ -18,7 +18,6 @@ import ru.rutmiit.user_survey_api.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import static ru.rutmiit.user_survey_api.mapper.SurveyMapper.toResponse;
@@ -81,13 +80,13 @@ public class SurveyController {
                 .map(QuestionMapper::toQuestion)
                 .toList();
 
-        questions.forEach(q -> questionService.create(q, id));
+        questionService.createAll(questions);
 
         return toResponse(surveyService.findById(id));
     }
 
     @PostMapping("/{id}/pass")
-    public Map<String, String> pass(@PathVariable("id") Long surveyId,
+    public String pass(@PathVariable("id") Long surveyId,
                                     @RequestBody PassingDtoRequest request) {
 
         var user = toUsr(request.getUser());
@@ -101,7 +100,7 @@ public class SurveyController {
 
         surveyService.pass(surveyId, user, answers);
 
-        return Map.of("message", "the answers to the questions were successfully published");
+        return "Successful";
     }
 
     @PatchMapping("/{id}")
