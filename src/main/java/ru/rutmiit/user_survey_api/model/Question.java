@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import ru.rutmiit.user_survey_api.model.enumeration.QuestionType;
 import ru.rutmiit.user_survey_api.util.PostgreSQLEnumType;
@@ -44,6 +45,7 @@ public class Question {
     private List<Option> options = new ArrayList<>();
 
     @Column(name = "type", columnDefinition = "question_type")
+    @Type(type = "pgsql_enum")
     @Enumerated(EnumType.STRING)
     private QuestionType type;
 

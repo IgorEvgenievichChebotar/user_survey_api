@@ -3,6 +3,7 @@ package ru.rutmiit.user_survey_api.service.implementation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.rutmiit.user_survey_api.exception.QuestionNotFoundException;
 import ru.rutmiit.user_survey_api.exception.SurveyNotFoundException;
 import ru.rutmiit.user_survey_api.model.Question;
 import ru.rutmiit.user_survey_api.repository.QuestionRepository;
@@ -23,7 +24,7 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public Question findById(Long id) {
         return questionRepository.findById(id)
-                .orElseThrow(SurveyNotFoundException::new);
+                .orElseThrow(QuestionNotFoundException::new);
     }
 
     @Override

@@ -91,7 +91,7 @@ public class SurveyController {
                                     @RequestBody PassingDtoRequest request) {
 
         var user = toUsr(request.getUser());
-        List<Question> questions = new ArrayList<>();
+        var questions = new ArrayList<Question>();
         var answers = request.getAnswers().stream()
                 .peek(answerDto -> questions.add(questionService.findById(answerDto.getQuestionId())))
                 .map(AnswerMapper::toAnswer)
