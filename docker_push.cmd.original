@@ -1,0 +1,4 @@
+cd ./
+docker login -u <login> -p <password>
+docker tag <volume_name> <repos_name>/<volume_name>
+docker push -a <volume_name>/<repos_name>

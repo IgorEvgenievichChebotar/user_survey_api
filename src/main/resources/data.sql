@@ -5,7 +5,7 @@ values ('survey for parents', '24-02-2019', '12-03-2020', '...'),
 insert into question(survey_id, type, text)
 VALUES (1, 'ONE_OPTION', 'how many children do you have?'),
        (2, 'TEXT', 'what is your favorite car'),
-       (1, 'MULTIPLE_OPTIONS', 'what do you feed your children?');
+       (1, 'TEXT', 'what do you feed your children?');
 
 insert into option(question_id, text)
 VALUES (1, '1'),

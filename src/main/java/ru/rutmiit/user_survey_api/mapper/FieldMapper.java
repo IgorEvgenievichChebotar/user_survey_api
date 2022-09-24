@@ -6,7 +6,7 @@ import java.util.Collection;
 
 public class FieldMapper {
     @SneakyThrows
-    public static void mapNonNullFields(Object source, Object target) {
+    public static <S, T> void mapNonNullFields(S source, T target) {
 
         var sourceFields = source.getClass().getDeclaredFields();
         var targetFields = target.getClass().getDeclaredFields();
