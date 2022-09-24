@@ -5,12 +5,13 @@ import ru.rutmiit.user_survey_api.dto.response.QuestionDtoResponse;
 import ru.rutmiit.user_survey_api.dto.response.QuestionsWithAnswerDtoResponse;
 import ru.rutmiit.user_survey_api.model.Answer;
 import ru.rutmiit.user_survey_api.model.Question;
+import ru.rutmiit.user_survey_api.model.enumeration.QuestionType;
 
 public class QuestionMapper {
     public static Question toQuestion(QuestionDtoRequest request) {
         return new Question(
                 request.getText(),
-                request.getType(),
+                QuestionType.valueOf(request.getType().toUpperCase()),
                 request.getOptions().stream()
                         .map(OptionMapper::toOption)
                         .toList()

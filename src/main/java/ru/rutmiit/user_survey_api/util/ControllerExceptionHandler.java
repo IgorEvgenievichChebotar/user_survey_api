@@ -17,22 +17,22 @@ public class ControllerExceptionHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ExceptionResponse handleException(RuntimeException e){
-        return getExceptionResponse(e);
+        return exceptionResponseBuilder(e);
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ExceptionResponse handleException(SurveyNotFoundException e){
-        return getExceptionResponse(e);
+        return exceptionResponseBuilder(e);
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ExceptionResponse handleException(QuestionNotFoundException e){
-        return getExceptionResponse(e);
+        return exceptionResponseBuilder(e);
     }
 
-    private ExceptionResponse getExceptionResponse(RuntimeException e) {
+    private ExceptionResponse exceptionResponseBuilder(RuntimeException e) {
         log.error(e.toString());
         return new ExceptionResponse(
                 e.getMessage(),

@@ -27,6 +27,12 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
+    public Question findByText(String text) {
+        return questionRepository.findByTextContainsIgnoreCase(text)
+                .orElseThrow(QuestionNotFoundException::new);
+    }
+
+    @Override
     public List<Question> findAll() {
         return questionRepository.findAll();
     }
@@ -37,11 +43,6 @@ public class QuestionServiceImpl implements QuestionService {
         question.setSurvey(surveyService.findById(surveyId));
 
         return questionRepository.save(question);
-    }
-
-    @Override
-    public List<Question> createAll(List<Question> questions) {
-        return questionRepository.saveAll(questions);
     }
 
     @Override

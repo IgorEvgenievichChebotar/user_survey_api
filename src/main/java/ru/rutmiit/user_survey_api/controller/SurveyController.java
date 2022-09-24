@@ -8,7 +8,9 @@ import ru.rutmiit.user_survey_api.dto.request.creating.QuestionDtoRequest;
 import ru.rutmiit.user_survey_api.dto.request.creating.SurveyDtoRequest;
 import ru.rutmiit.user_survey_api.dto.request.passing.PassingDtoRequest;
 import ru.rutmiit.user_survey_api.dto.response.SurveyDtoResponse;
+import ru.rutmiit.user_survey_api.exception.QuestionNotCreatedException;
 import ru.rutmiit.user_survey_api.exception.SurveyNotCreatedException;
+import ru.rutmiit.user_survey_api.exception.SurveyNotUpdatedException;
 import ru.rutmiit.user_survey_api.mapper.AnswerMapper;
 import ru.rutmiit.user_survey_api.mapper.QuestionMapper;
 import ru.rutmiit.user_survey_api.mapper.SurveyMapper;
@@ -21,6 +23,8 @@ import ru.rutmiit.user_survey_api.util.CollectionUtils;
 import ru.rutmiit.user_survey_api.util.ExceptionMessageBuilder;
 import ru.rutmiit.user_survey_api.validation.OnCreate;
 import ru.rutmiit.user_survey_api.validation.OnUpdate;
+import ru.rutmiit.user_survey_api.validation.QuestionValidator;
+import ru.rutmiit.user_survey_api.validation.SurveyValidator;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -37,6 +41,8 @@ import static ru.rutmiit.user_survey_api.mapper.UsrMapper.toUsr;
 public class SurveyController {
     private final SurveyService surveyService;
     private final QuestionService questionService;
+    private final SurveyValidator surveyValidator;
+    private final QuestionValidator questionValidator;
 
     @GetMapping
     public Iterable<Object> findMany(
@@ -73,6 +79,9 @@ public class SurveyController {
     public SurveyDtoResponse create(@RequestBody @Validated(OnCreate.class) SurveyDtoRequest request,
                                     BindingResult bindingResult) {
 
+        surveyValidator.validate(request, bindingResult);
+        request.getQuestions().forEach(q -> questionValidator.validate(q, bindingResult));
+
         if (bindingResult.hasErrors()) {
             var msg = ExceptionMessageBuilder.buildMessage(bindingResult);
             throw new SurveyNotCreatedException(msg);
@@ -87,13 +96,20 @@ public class SurveyController {
 
     @PostMapping("/{id}")
     public SurveyDtoResponse addQuestions(@PathVariable("id") Long id,
-                                          @RequestBody List<QuestionDtoRequest> requests) {
+                                          @RequestBody @Valid List<QuestionDtoRequest> requests,
+                                          BindingResult bindingResult) {
+
+        requests.forEach(r -> questionValidator.validate(r, bindingResult));
+        if (bindingResult.hasErrors()) {
+            var msg = ExceptionMessageBuilder.buildMessage(bindingResult);
+            throw new QuestionNotCreatedException(msg);
+        }
 
         var questions = requests.stream()
                 .map(QuestionMapper::toQuestion)
                 .toList();
 
-        questionService.createAll(questions);
+        questions.forEach(q -> questionService.create(q, id));
 
         return toResponse(surveyService.findById(id));
     }
@@ -118,7 +134,14 @@ public class SurveyController {
 
     @PatchMapping("/{id}")
     public SurveyDtoResponse update(@PathVariable("id") Long id,
-                                    @RequestBody @Validated(OnUpdate.class) SurveyDtoRequest request) {
+                                    @RequestBody @Validated(OnUpdate.class) SurveyDtoRequest request,
+                                    BindingResult bindingResult) {
+
+        surveyValidator.validate(request, bindingResult);
+        if (bindingResult.hasErrors()) {
+            var msg = ExceptionMessageBuilder.buildMessage(bindingResult);
+            throw new SurveyNotUpdatedException(msg);
+        }
 
         var survey = toSurvey(request);
 

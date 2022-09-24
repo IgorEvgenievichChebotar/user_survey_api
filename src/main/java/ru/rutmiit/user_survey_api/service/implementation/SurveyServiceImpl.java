@@ -35,6 +35,12 @@ public class SurveyServiceImpl implements SurveyService {
     }
 
     @Override
+    public Survey findByTitle(String title) {
+        return surveyRepository.findByTitleIgnoreCase(title)
+                .orElseThrow(SurveyNotFoundException::new);
+    }
+
+    @Override
     public List<Survey> findActive() {
         return this.findAll().stream()
                 .filter(s -> now().isBefore(s.getEndDate().atStartOfDay()))

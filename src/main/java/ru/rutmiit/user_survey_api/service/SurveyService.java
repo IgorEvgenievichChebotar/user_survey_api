@@ -9,6 +9,7 @@ import java.util.List;
 public interface SurveyService {
 
     Survey findById(Long id);
+    Survey findByTitle(String title);
 
     List<Survey> findActive();
 
