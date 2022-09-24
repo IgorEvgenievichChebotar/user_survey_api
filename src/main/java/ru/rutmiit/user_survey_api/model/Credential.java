@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
+import ru.rutmiit.user_survey_api.model.enumeration.RoleType;
 
 import javax.persistence.*;
 
@@ -25,7 +27,13 @@ public class Credential {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "role", nullable = false)
-    private String role;
+    @Column(name = "role", columnDefinition = "role_type")
+    @Type(type = "pgsql_enum")
+    @Enumerated(EnumType.STRING)
+    private RoleType role;
 
+    public Credential(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 }

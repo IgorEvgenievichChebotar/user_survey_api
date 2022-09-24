@@ -12,3 +12,10 @@ spring:
 logging:
   level:
     root: warn
+
+jwt:
+  secret: SECRET
+  issuer: user_survey_api
+  subject: user_details
+  claim: username
+  expirationTimeSec: 3600

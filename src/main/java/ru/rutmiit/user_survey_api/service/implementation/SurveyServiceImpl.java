@@ -1,6 +1,7 @@
 package ru.rutmiit.user_survey_api.service.implementation;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.rutmiit.user_survey_api.exception.SurveyNotFoundException;
@@ -81,6 +82,7 @@ public class SurveyServiceImpl implements SurveyService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Survey create(Survey survey) {
         if (survey.getStartDate() == null)
             survey.setStartDate(LocalDate.now());
@@ -96,6 +98,7 @@ public class SurveyServiceImpl implements SurveyService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Survey update(Survey survey, Long id) {
         var foundedSurvey = this.findById(id);
 
@@ -111,6 +114,7 @@ public class SurveyServiceImpl implements SurveyService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasAuthority('ADMIN')")
     public void deleteById(Long id) {
         if (surveyRepository.existsById(id))
             surveyRepository.deleteById(id);

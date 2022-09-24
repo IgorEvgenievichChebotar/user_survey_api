@@ -3,7 +3,7 @@ package ru.rutmiit.user_survey_api.service.implementation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.rutmiit.user_survey_api.exception.UsrNotFoundException;
+import ru.rutmiit.user_survey_api.exception.UserNotFoundException;
 import ru.rutmiit.user_survey_api.model.Usr;
 import ru.rutmiit.user_survey_api.repository.UsrRepository;
 import ru.rutmiit.user_survey_api.service.UsrService;
@@ -19,7 +19,7 @@ public class UsrServiceImpl implements UsrService {
     @Override
     public Usr findByEmail(String email) {
         return usrRepository.findByEmail(email)
-                .orElseThrow(UsrNotFoundException::new);
+                .orElseThrow(UserNotFoundException::new);
     }
 
     @Override

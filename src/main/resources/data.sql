@@ -1,20 +1,22 @@
 insert into survey(title, start_date, end_date, description)
-values ('Яблоки', '24-02-2019', '12-03-2020', 'Давайте поговорим о яблоках'),
-       ('Российский опрос', '24-03-2021', '12-03-2024', 'Опрос для всех россиян!');
+values ('survey for parents', '24-02-2019', '12-03-2020', '...'),
+       ('survey for motorists', '24-03-2021', '12-03-2024', '...');
 
 insert into question(survey_id, type, text)
-VALUES (2, 'ONE_OPTION', 'Какой президент России был самым лучшим?'),
-       (2, 'TEXT', 'Что можете сказать о Ельцине?'),
-       (1, 'MULTIPLE_OPTIONS', 'Какие сорта яблок предпочитаете больше всего?');
+VALUES (1, 'ONE_OPTION', 'how many children do you have?'),
+       (2, 'TEXT', 'what is your favorite car'),
+       (1, 'MULTIPLE_OPTIONS', 'what do you feed your children?');
 
 insert into option(question_id, text)
-VALUES (1, 'Путин'),
-       (1, 'Медведев'),
-       (1, 'Ельцин'),
-       (3, 'Красные'),
-       (3, 'Зеленые'),
-       (3, 'Желтые');
+VALUES (1, '1'),
+       (1, '2'),
+       (1, '3'),
+       (1, 'more');
 
 insert into usr(name, email)
-VALUES ('IVAN', 'ivan@yandex.ru'),
-       ('MARIA', 'maria@mail.ru');
+VALUES ('Anatoly', 'anatoly@gmail.com'),
+       ('Maria', 'maria@mail.com');
+
+insert into credential(username, password, role)
+VALUES ('admin', '{bcrypt}$2a$12$LlGBRuoYhqQpXxWwRoHZbeBfdb1siVIaVN0jGbLghKBYJL6ZAbOuG', 'ADMIN');
+

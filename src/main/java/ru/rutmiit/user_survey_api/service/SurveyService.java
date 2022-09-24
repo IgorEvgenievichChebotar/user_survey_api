@@ -20,8 +20,7 @@ public interface SurveyService {
     //-------------------------------------------------------------------//
 
     List<Survey> findPassedSurveysByUserId(Long id); /* only for current user(id)
-                                                 otherwise for admin
-                                                 one method for 2 cases */
+                                                 otherwise for admin */
 
     //-------------------------------------------------------------------//
 

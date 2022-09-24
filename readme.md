@@ -1,18 +1,18 @@
-# Система опроса пользователей:
+# user survey system:
 
-| Запрос |      Конечная точка      |                    Описание                     | Авторизация |
-|:------:|:------------------------:|:-----------------------------------------------:|:-----------:|
-|  POST  |        /auth/reg         |                   регистрация                   |      -      |
-|  POST  |       /auth/login        |                   авторизация                   |      -      |
-|  POST  |         /survey          |                добавление опроса                |    ADMIN    |+
-| PATCH  |       /survey/{id}       |         изменение опроса с заданным id          |    ADMIN    |+
-| DELETE |       /survey/{id}       |          удаление опроса с заданным id          |    ADMIN    |+
-|  POST  |       /survey/{id}       |   добавление вопросов к опросу с заданным id    |    ADMIN    |+
-|  POST  | /question?survey_id={id} |    добавления вопроса к опросу с заданным id    |    ADMIN    |+
-| PATCH  |      /question/{id}      |         изменение вопроса с заданным id         |    ADMIN    |+
-| DELETE |      /question/{id}      |         удаление вопроса с заданным id          |    ADMIN    |+
-|  GET   |   /survey?user_id={id}   | получение пройденных опросов по id пользователя | ADMIN, USER |+
-|  GET   |         /survey          |             получение всех опросов              | ADMIN, USER |+
-|  GET   |   /survey?active=true    |           получение активных опросов            | ADMIN, USER |+
-|  GET   |       /survey/{id}       |         получение опроса с заданным id          | ADMIN, USER |+
-|  POST  |    /survey/{id}/pass     |        прохождение опроса с заданным id         | ADMIN, USER |+
+| request |         endpoint         |                  description                  | authorization |
+|:-------:|:------------------------:|:---------------------------------------------:|:-------------:|
+|  POST   |        /auth/reg         |                 registration                  |      all      |
+|  POST   |       /auth/login        |                 authorization                 |      all      |
+|  POST   |         /survey          |                adding a survey                |     ADMIN     |
+|  PATCH  |       /survey/{id}       |       changing a survey with a given id       |     ADMIN     |
+| DELETE  |       /survey/{id}       |     deleting a survey with a specified id     |     ADMIN     |
+|  POST   |       /survey/{id}       | adding questions to a survey with a given id  |     ADMIN     |
+|  POST   | /question?survey_id={id} | adding a question to a survey with a given id |     ADMIN     |
+|  PATCH  |      /question/{id}      |      changing a question with a given id      |     ADMIN     |
+| DELETE  |      /question/{id}      |      deleting a question with a given id      |     ADMIN     |
+|   GET   |   /survey?user_id={id}   |     getting completed surveys by user id      |      all      |
+|   GET   |         /survey          |              getting all surveys              |      all      |
+|   GET   |   /survey?active=true    |            getting active surveys             |      all      |
+|   GET   |       /survey/{id}       |       getting a survey with a given id        |      all      |
+|  POST   |    /survey/{id}/pass     |   passing the survey with the specified id    |      all      |
