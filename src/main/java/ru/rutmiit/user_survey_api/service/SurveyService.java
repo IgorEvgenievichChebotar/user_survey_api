@@ -15,7 +15,7 @@ public interface SurveyService {
 
     List<Survey> findAll();
 
-    void pass(Long surveyId, Usr user, List<Answer> answers);
+    Usr pass(Long surveyId, Usr user, List<Answer> answers);
 
     //-------------------------------------------------------------------//
 

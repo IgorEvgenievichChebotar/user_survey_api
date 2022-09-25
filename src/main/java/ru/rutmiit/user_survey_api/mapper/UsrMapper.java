@@ -7,7 +7,6 @@ public class UsrMapper {
     public static Usr toUsr(UsrDtoRequest request) {
         if (request != null)
             return new Usr(
-                    request.getId(),
                     request.getName(),
                     request.getEmail()
             );

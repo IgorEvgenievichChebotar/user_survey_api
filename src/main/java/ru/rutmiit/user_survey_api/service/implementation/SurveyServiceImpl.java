@@ -55,7 +55,7 @@ public class SurveyServiceImpl implements SurveyService {
 
     @Override
     @Transactional
-    public void pass(Long surveyId, Usr user, List<Answer> answers) {
+    public Usr pass(Long surveyId, Usr user, List<Answer> answers) {
         var foundedSurvey = this.findById(surveyId);
 
         var savedOrUpdatedUser = usrService.update(user);
@@ -66,6 +66,8 @@ public class SurveyServiceImpl implements SurveyService {
         });
 
         answerService.commitAll(answers);
+
+        return savedOrUpdatedUser;
     }
 
     @Override

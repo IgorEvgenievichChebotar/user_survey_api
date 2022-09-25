@@ -127,9 +127,9 @@ public class SurveyController {
 
         CollectionUtils.zip(answers, questions, Answer::setQuestion);
 
-        surveyService.pass(surveyId, user, answers);
+        var savedOrUpdatedUser = surveyService.pass(surveyId, user, answers);
 
-        return "Successful";
+        return "Successful, your answers were saved for the user with id " + savedOrUpdatedUser.getId();
     }
 
     @PatchMapping("/{id}")

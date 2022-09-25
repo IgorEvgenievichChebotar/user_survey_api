@@ -1,9 +1,6 @@
 package ru.rutmiit.user_survey_api.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import ru.rutmiit.user_survey_api.model.enumeration.QuestionType;
@@ -18,6 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@Builder
 @Table(name = "question")
 @TypeDef(
         name = "pgsql_enum",

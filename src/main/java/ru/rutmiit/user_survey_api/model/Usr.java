@@ -30,8 +30,7 @@ public class Usr {
     @OneToMany(mappedBy = "usr", cascade = CascadeType.ALL)
     private List<Answer> answers = new ArrayList<>();
 
-    public Usr(Long id, String name, String email) {
-        this.id = id;
+    public Usr(String name, String email) {
         this.name = name;
         this.email = email;
     }

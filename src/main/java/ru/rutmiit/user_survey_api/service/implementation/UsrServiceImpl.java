@@ -24,13 +24,15 @@ public class UsrServiceImpl implements UsrService {
 
     @Override
     public Usr update(Usr usr) {
-        if (usr.getId() == null)
+        if (usr != null && usr.getEmail() != null) {
+            var uzr = usrRepository.findByEmail(usr.getEmail());
+            if (uzr.isPresent()) {
+                var foundedUser = uzr.get();
+                mapNonNullFields(usr, foundedUser);
+                return usrRepository.save(foundedUser);
+            } else
+                return usrRepository.save(usr);
+        } else
             return usrRepository.save(new Usr());
-        else {
-            var user = usrRepository.findById(usr.getId())
-                    .orElse(new Usr());
-            mapNonNullFields(usr, user);
-            return usrRepository.save(user);
-        }
     }
 }

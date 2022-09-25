@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
 /**
@@ -17,9 +16,6 @@ import javax.validation.constraints.Size;
 @Getter
 @Setter
 public class UsrDtoRequest {
-    @Positive(message = "user.id should be a positive number")
-    private Long id;
-
     @Size(min = 1, max = 255, message = "incorrect user.name size")
     private String name;
 
