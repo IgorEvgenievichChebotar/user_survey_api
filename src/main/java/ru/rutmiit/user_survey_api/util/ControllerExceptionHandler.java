@@ -20,32 +20,26 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 public class ControllerExceptionHandler {
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ExceptionResponse handleException(RuntimeException e){
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ExceptionResponse handleException(SurveyNotFoundException e) {
         return buildExceptionResponse(e);
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ExceptionResponse handleException(SurveyNotFoundException e){
+    public ExceptionResponse handleException(UsernameNotFoundException e) {
         return buildExceptionResponse(e);
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ExceptionResponse handleException(UsernameNotFoundException e){
+    public ExceptionResponse handleException(UserNotFoundException e) {
         return buildExceptionResponse(e);
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ExceptionResponse handleException(UserNotFoundException e){
-        return buildExceptionResponse(e);
-    }
-
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ExceptionResponse handleException(QuestionNotFoundException e){
+    public ExceptionResponse handleException(QuestionNotFoundException e) {
         return buildExceptionResponse(e);
     }
 
@@ -55,7 +49,13 @@ public class ControllerExceptionHandler {
         return buildExceptionResponse(e);
     }
 
-    private ExceptionResponse buildExceptionResponse(RuntimeException e) {
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionResponse handleException(RuntimeException e) {
+        return buildExceptionResponse(e);
+    }
+
+    private ExceptionResponse buildExceptionResponse(Exception e) {
         log.error(e.toString());
         return new ExceptionResponse(
                 e.getMessage(),

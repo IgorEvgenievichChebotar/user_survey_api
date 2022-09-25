@@ -1,3 +1,6 @@
+module-name: Система опроса пользователей
+api-version: 1.0
+
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
@@ -15,8 +18,6 @@ spring:
 logging:
   level:
     root: warn
-
-
 
 jwt:
   secret: SECRET
