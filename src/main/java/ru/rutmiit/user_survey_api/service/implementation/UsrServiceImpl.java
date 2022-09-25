@@ -23,6 +23,12 @@ public class UsrServiceImpl implements UsrService {
     }
 
     @Override
+    public Usr findById(Long id) {
+        return usrRepository.findById(id)
+                .orElseThrow(UserNotFoundException::new);
+    }
+
+    @Override
     public Usr update(Usr usr) {
         if (usr != null && usr.getEmail() != null) {
             var uzr = usrRepository.findByEmail(usr.getEmail());

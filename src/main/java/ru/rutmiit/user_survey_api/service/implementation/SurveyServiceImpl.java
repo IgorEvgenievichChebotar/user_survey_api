@@ -73,6 +73,7 @@ public class SurveyServiceImpl implements SurveyService {
     @Override
     @PreAuthorize("hasAuthority('ADMIN')")
     public List<Survey> findPassedSurveysByUserId(Long id) {
+        usrService.findById(id);
         var resultList = surveyRepository.findPassedSurveysByUserId(id);
 
         resultList.forEach(s -> s
