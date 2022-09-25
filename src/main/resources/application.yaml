@@ -8,10 +8,15 @@ spring:
     hibernate:
       ddl-auto: validate
     show-sql: true
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
 logging:
   level:
     root: warn
+
+
 
 jwt:
   secret: SECRET

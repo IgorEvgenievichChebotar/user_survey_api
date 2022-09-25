@@ -48,14 +48,14 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public TokenDtoResponse login(@RequestBody CredentialDtoRequest credentialDtoRequest) {
+    public TokenDtoResponse login(@RequestBody CredentialDtoRequest request) {
 
         var authenticationToken = new UsernamePasswordAuthenticationToken(
-                credentialDtoRequest.getUsername(),
-                credentialDtoRequest.getPassword());
+                request.getUsername(),
+                request.getPassword());
         authenticationManager.authenticate(authenticationToken);
 
-        var token = jwtProvider.generateToken(credentialDtoRequest.getUsername());
+        var token = jwtProvider.generateToken(request.getUsername());
 
         return new TokenDtoResponse(token);
     }

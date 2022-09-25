@@ -15,7 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity
 public class SecurityConfig {
     private final String[] SWAGGER_URI = {
-            "/swagger-ui/**",
+            "/swagger-ui/index.html",
             "/v3/api-docs/**"
     };
 
@@ -45,7 +45,7 @@ public class SecurityConfig {
                 .apply(httpConfigurer())
                 .and()
                 .authorizeHttpRequests(requests -> requests
-                        .antMatchers(SWAGGER_URI).hasAuthority("ADMIN")
+                        .antMatchers(SWAGGER_URI).permitAll()
                         .anyRequest().permitAll())
                 .sessionManagement(management -> management
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
