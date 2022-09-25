@@ -59,7 +59,7 @@
 |  POST  | /question?survey_id={id} |        добавление вопроса к опросу с заданным id         |    ADMIN    |
 | PATCH  |      /question/{id}      |             изменение вопроса с заданным id              |    ADMIN    |
 | DELETE |      /question/{id}      |              удаление вопроса с заданным id              |    ADMIN    |
-|  GET   |   /survey?user_id={id}   | получение пройденных опросов пользователем с заданным id |     all     |
+|  GET   |   /survey?user_id={id}   | получение пройденных опросов пользователем с заданным id |    ADMIN    |
 |  GET   |         /survey          |                  получение всех опросов                  |     all     |
 |  GET   |   /survey?active=true    |             получение всех активных вопросов             |     all     |
 |  GET   |       /survey/{id}       |             получение опроса с с заданным id             |     all     |
