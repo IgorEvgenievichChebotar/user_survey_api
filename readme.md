@@ -31,21 +31,36 @@
   или локально)
 - документация по АРI
 
+## Использованные технологии:
+- Spring Boot
+- Spring MVC
+- Spring Security
+- Spring Data Jpa
+- Spring Docs
+- Spring Validator
+- Hibernate ORM
+- PostgreSQL
+- Test Containers
+- Liquibase
+- Lombok
+- Docker
+- Maven
+
 ## Конечные точки:
 
-| request |         endpoint         |                       description                        | authorization |
-|:-------:|:------------------------:|:--------------------------------------------------------:|:-------------:|
-|  POST   |        /auth/reg         |                       регистрация                        |      all      |
-|  POST   |       /auth/login        |              авторизация (администратором)               |      all      |
-|  POST   |         /survey          |                    добавление опроса                     |     ADMIN     |
-|  PATCH  |       /survey/{id}       |              изменение опроса с заданным id              |     ADMIN     |
-| DELETE  |       /survey/{id}       |              удаление опроса с заданным id               |     ADMIN     |
-|  POST   |       /survey/{id}       |        добавление вопросов к опросу с заданным id        |     ADMIN     |
-|  POST   | /question?survey_id={id} |        добавление вопроса к опросу с заданным id         |     ADMIN     |
-|  PATCH  |      /question/{id}      |             изменение вопроса с заданным id              |     ADMIN     |
-| DELETE  |      /question/{id}      |              удаление вопроса с заданным id              |     ADMIN     |
-|   GET   |   /survey?user_id={id}   | получение пройденных опросов пользователем с заданным id |      all      |
-|   GET   |         /survey          |                  получение всех опросов                  |      all      |
-|   GET   |   /survey?active=true    |             получение всех активных вопросов             |      all      |
-|   GET   |       /survey/{id}       |             получение опроса с с заданным id             |      all      |
-|  POST   |    /survey/{id}/pass     |             прохождение опроса с заданным id             |      all      |
+| запрос |      конечная точка      |                         описание                         | авторизация |
+|:------:|:------------------------:|:--------------------------------------------------------:|:-----------:|
+|  POST  |        /auth/reg         |                       регистрация                        |     all     |
+|  POST  |       /auth/login        |              авторизация (администратором)               |     all     |
+|  POST  |         /survey          |                    добавление опроса                     |    ADMIN    |
+| PATCH  |       /survey/{id}       |              изменение опроса с заданным id              |    ADMIN    |
+| DELETE |       /survey/{id}       |              удаление опроса с заданным id               |    ADMIN    |
+|  POST  |       /survey/{id}       |        добавление вопросов к опросу с заданным id        |    ADMIN    |
+|  POST  | /question?survey_id={id} |        добавление вопроса к опросу с заданным id         |    ADMIN    |
+| PATCH  |      /question/{id}      |             изменение вопроса с заданным id              |    ADMIN    |
+| DELETE |      /question/{id}      |              удаление вопроса с заданным id              |    ADMIN    |
+|  GET   |   /survey?user_id={id}   | получение пройденных опросов пользователем с заданным id |     all     |
+|  GET   |         /survey          |                  получение всех опросов                  |     all     |
+|  GET   |   /survey?active=true    |             получение всех активных вопросов             |     all     |
+|  GET   |       /survey/{id}       |             получение опроса с с заданным id             |     all     |
+|  POST  |    /survey/{id}/pass     |             прохождение опроса с заданным id             |     all     |
