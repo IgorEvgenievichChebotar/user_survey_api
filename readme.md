@@ -1,18 +1,51 @@
-# user survey system:
+# Задача: спроектировать и разработать АРI для опроса пользователей.
 
-| request |         endpoint         |                  description                  | authorization |
-|:-------:|:------------------------:|:---------------------------------------------:|:-------------:|
-|  POST   |        /auth/reg         |                 registration                  |      all      |
-|  POST   |       /auth/login        |                 authorization                 |      all      |
-|  POST   |         /survey          |                adding a survey                |     ADMIN     |
-|  PATCH  |       /survey/{id}       |       changing a survey with a given id       |     ADMIN     |
-| DELETE  |       /survey/{id}       |     deleting a survey with a specified id     |     ADMIN     |
-|  POST   |       /survey/{id}       | adding questions to a survey with a given id  |     ADMIN     |
-|  POST   | /question?survey_id={id} | adding a question to a survey with a given id |     ADMIN     |
-|  PATCH  |      /question/{id}      |      changing a question with a given id      |     ADMIN     |
-| DELETE  |      /question/{id}      |      deleting a question with a given id      |     ADMIN     |
-|   GET   |   /survey?user_id={id}   |     getting completed surveys by user id      |      all      |
-|   GET   |         /survey          |              getting all surveys              |      all      |
-|   GET   |   /survey?active=true    |            getting active surveys             |      all      |
-|   GET   |       /survey/{id}       |       getting a survey with a given id        |      all      |
-|  POST   |    /survey/{id}/pass     |   passing the survey with the specified id    |      all      |
+**Функционал для администратора системы:**
+
+- авторизация в системе (регистрация не нужна)
+- добавление/изменение/удаление опросов. Атрибуты
+  опроса: название, дата старта, дата окончания, описание.
+  После создания поле "дата старта" у опроса менять нельзя
+- добавление/изменение/удаление вопросов в опросе.
+  Атрибуты вопросов: текст вопроса, тип вопроса (ответ
+  текстом, ответ с выбором одного варианта, ответ с
+  выбором нескольких вариантов)
+
+**Функционал для пользователей системы:**
+
+- получение списка активных опросов
+- прохождение опроса: опросы можно проходить
+  анонимно, в качестве идентификатора пользователя в АРI
+  передаётся числовой id, по которому сохраняются ответы
+  пользователя на вопросы; один пользователь может
+  участвовать в любом количестве опросов
+- получение пройденных пользователем опросов с
+  детализацией по ответам (что выбрано) по
+  уникальному пользователя
+
+**Результат выполнения задачи:**
+
+- исходный код приложения на github (только на github,
+  публичный репозиторий)
+- инструкция по разворачиванию приложения (в docker
+  или локально)
+- документация по АРI
+
+## Конечные точки:
+
+| request |         endpoint         |                       description                        | authorization |
+|:-------:|:------------------------:|:--------------------------------------------------------:|:-------------:|
+|  POST   |        /auth/reg         |                       регистрация                        |      all      |
+|  POST   |       /auth/login        |              авторизация (администратором)               |      all      |
+|  POST   |         /survey          |                    добавление опроса                     |     ADMIN     |
+|  PATCH  |       /survey/{id}       |              изменение опроса с заданным id              |     ADMIN     |
+| DELETE  |       /survey/{id}       |              удаление опроса с заданным id               |     ADMIN     |
+|  POST   |       /survey/{id}       |        добавление вопросов к опросу с заданным id        |     ADMIN     |
+|  POST   | /question?survey_id={id} |        добавление вопроса к опросу с заданным id         |     ADMIN     |
+|  PATCH  |      /question/{id}      |             изменение вопроса с заданным id              |     ADMIN     |
+| DELETE  |      /question/{id}      |              удаление вопроса с заданным id              |     ADMIN     |
+|   GET   |   /survey?user_id={id}   | получение пройденных опросов пользователем с заданным id |      all      |
+|   GET   |         /survey          |                  получение всех опросов                  |      all      |
+|   GET   |   /survey?active=true    |             получение всех активных вопросов             |      all      |
+|   GET   |       /survey/{id}       |             получение опроса с с заданным id             |      all      |
+|  POST   |    /survey/{id}/pass     |             прохождение опроса с заданным id             |      all      |
