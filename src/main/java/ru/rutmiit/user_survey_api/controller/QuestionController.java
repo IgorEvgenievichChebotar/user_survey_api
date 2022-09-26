@@ -1,6 +1,7 @@
 package ru.rutmiit.user_survey_api.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,7 @@ public class QuestionController {
     private final QuestionValidator questionValidator;
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public QuestionDtoResponse create(@RequestBody @Validated(OnCreate.class) QuestionDtoRequest request,
                                       BindingResult bindingResult,
                                       @RequestParam(

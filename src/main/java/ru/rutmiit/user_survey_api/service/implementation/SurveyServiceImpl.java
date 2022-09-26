@@ -5,7 +5,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.rutmiit.user_survey_api.exception.SurveyNotFoundException;
-import ru.rutmiit.user_survey_api.mapper.FieldMapper;
 import ru.rutmiit.user_survey_api.model.Answer;
 import ru.rutmiit.user_survey_api.model.Survey;
 import ru.rutmiit.user_survey_api.model.Usr;
@@ -13,7 +12,6 @@ import ru.rutmiit.user_survey_api.repository.SurveyRepository;
 import ru.rutmiit.user_survey_api.service.AnswerService;
 import ru.rutmiit.user_survey_api.service.SurveyService;
 import ru.rutmiit.user_survey_api.service.UsrService;
-import ru.rutmiit.user_survey_api.util.CollectionUtils;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -107,11 +105,6 @@ public class SurveyServiceImpl implements SurveyService {
         var foundedSurvey = this.findById(id);
 
         mapNonNullFields(survey, foundedSurvey);
-
-        var questions = survey.getQuestions();
-        var foundedQuestions = foundedSurvey.getQuestions();
-
-        CollectionUtils.zip(questions, foundedQuestions, FieldMapper::mapNonNullFields);
 
         return surveyRepository.save(foundedSurvey);
     }

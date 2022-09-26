@@ -1,6 +1,7 @@
 package ru.rutmiit.user_survey_api.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -75,6 +76,7 @@ public class SurveyController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public SurveyDtoResponse create(@RequestBody @Validated(OnCreate.class) SurveyDtoRequest request,
                                     BindingResult bindingResult) {
 
@@ -150,6 +152,7 @@ public class SurveyController {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") Long id) {
         surveyService.deleteById(id);
     }
