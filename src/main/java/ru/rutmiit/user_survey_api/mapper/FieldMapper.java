@@ -6,7 +6,7 @@ import java.util.Collection;
 
 public class FieldMapper {
     @SneakyThrows
-    public static <S, T> void mapNonNullFields(S source, T target) {
+    public static <T> void mapNonNullFields(T source, T target) {
 
         var sourceFields = source.getClass().getDeclaredFields();
         var targetFields = target.getClass().getDeclaredFields();
@@ -23,8 +23,9 @@ public class FieldMapper {
                 var sourceFieldValue = sourceField.get(source);
                 var targetFieldValue = targetField.get(target);
 
-                if (Collection.class.isAssignableFrom(sourceField.getType()))
+                if (sourceField.get(source) instanceof Collection<?>) {
                     continue;
+                }
 
                 if (sourceFieldValue != null)
                     targetField.set(target, sourceFieldValue);

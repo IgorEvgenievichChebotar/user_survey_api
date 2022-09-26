@@ -22,7 +22,6 @@ import ru.rutmiit.user_survey_api.service.SurveyService;
 import ru.rutmiit.user_survey_api.util.CollectionUtils;
 import ru.rutmiit.user_survey_api.util.ExceptionMessageBuilder;
 import ru.rutmiit.user_survey_api.validation.OnCreate;
-import ru.rutmiit.user_survey_api.validation.OnUpdate;
 import ru.rutmiit.user_survey_api.validation.QuestionValidator;
 import ru.rutmiit.user_survey_api.validation.SurveyValidator;
 
@@ -134,7 +133,7 @@ public class SurveyController {
 
     @PatchMapping("/{id}")
     public SurveyDtoResponse update(@PathVariable("id") Long id,
-                                    @RequestBody @Validated(OnUpdate.class) SurveyDtoRequest request,
+                                    @RequestBody @Valid SurveyDtoRequest request,
                                     BindingResult bindingResult) {
 
         surveyValidator.validate(request, bindingResult);

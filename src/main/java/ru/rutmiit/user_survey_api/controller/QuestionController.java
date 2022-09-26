@@ -11,8 +11,9 @@ import ru.rutmiit.user_survey_api.exception.QuestionNotUpdatedException;
 import ru.rutmiit.user_survey_api.service.QuestionService;
 import ru.rutmiit.user_survey_api.util.ExceptionMessageBuilder;
 import ru.rutmiit.user_survey_api.validation.OnCreate;
-import ru.rutmiit.user_survey_api.validation.OnUpdate;
 import ru.rutmiit.user_survey_api.validation.QuestionValidator;
+
+import javax.validation.Valid;
 
 import static ru.rutmiit.user_survey_api.mapper.QuestionMapper.toQuestion;
 import static ru.rutmiit.user_survey_api.mapper.QuestionMapper.toResponse;
@@ -46,7 +47,7 @@ public class QuestionController {
     }
 
     @PatchMapping("/{id}")
-    public QuestionDtoResponse update(@RequestBody @Validated(OnUpdate.class) QuestionDtoRequest request,
+    public QuestionDtoResponse update(@RequestBody @Valid QuestionDtoRequest request,
                                       BindingResult bindingResult,
                                       @PathVariable("id") Long id) {
 

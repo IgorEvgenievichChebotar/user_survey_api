@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ru.rutmiit.user_survey_api.validation.OnCreate;
-import ru.rutmiit.user_survey_api.validation.OnUpdate;
 import ru.rutmiit.user_survey_api.validation.QuestionTypeSubset;
 
 import javax.validation.Valid;
@@ -26,11 +25,11 @@ import static ru.rutmiit.user_survey_api.model.enumeration.QuestionType.*;
 @Setter
 public class QuestionDtoRequest {
     @NotBlank(message = "question.text should not be blank", groups = OnCreate.class)
-    @Size(min = 1, max = 255, message = "Incorrect question.text length", groups = {OnCreate.class, OnUpdate.class})
+    @Size(min = 1, max = 255, message = "Incorrect question.text length")
     private String text;
 
     @NotNull(message = "question.type should not be null", groups = OnCreate.class)
-    @QuestionTypeSubset(anyOf = {TEXT, MULTIPLE_OPTIONS, ONE_OPTION}, groups = {OnCreate.class, OnUpdate.class})
+    @QuestionTypeSubset(anyOf = {TEXT, MULTIPLE_OPTIONS, ONE_OPTION})
     private String type;
 
     @Valid
