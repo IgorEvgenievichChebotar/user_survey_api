@@ -15,7 +15,6 @@ import ru.rutmiit.user_survey_api.exception.SurveyNotUpdatedException;
 import ru.rutmiit.user_survey_api.mapper.AnswerMapper;
 import ru.rutmiit.user_survey_api.mapper.QuestionMapper;
 import ru.rutmiit.user_survey_api.mapper.SurveyMapper;
-import ru.rutmiit.user_survey_api.model.Answer;
 import ru.rutmiit.user_survey_api.model.Question;
 import ru.rutmiit.user_survey_api.model.Survey;
 import ru.rutmiit.user_survey_api.service.QuestionService;
@@ -81,7 +80,8 @@ public class SurveyController {
                                     BindingResult bindingResult) {
 
         surveyValidator.validate(request, bindingResult);
-        request.getQuestions().forEach(q -> questionValidator.validate(q, bindingResult));
+        for (QuestionDtoRequest r : request.getQuestions())
+            questionValidator.validate(r, bindingResult);
 
         if (bindingResult.hasErrors()) {
             var msg = ExceptionMessageBuilder.buildMessage(bindingResult);
@@ -100,7 +100,9 @@ public class SurveyController {
                                           @RequestBody @Valid List<QuestionDtoRequest> requests,
                                           BindingResult bindingResult) {
 
-        requests.forEach(r -> questionValidator.validate(r, bindingResult));
+        for (QuestionDtoRequest r : requests)
+            questionValidator.validate(r, bindingResult);
+
         if (bindingResult.hasErrors()) {
             var msg = ExceptionMessageBuilder.buildMessage(bindingResult);
             throw new QuestionNotCreatedException(msg);
@@ -110,7 +112,8 @@ public class SurveyController {
                 .map(QuestionMapper::toQuestion)
                 .toList();
 
-        questions.forEach(q -> questionService.create(q, id));
+        for (Question q : questions)
+            questionService.create(q, id);
 
         return toResponse(surveyService.findById(id));
     }
@@ -122,11 +125,13 @@ public class SurveyController {
         var user = toUsr(request.getUser());
         var questions = new ArrayList<Question>();
         var answers = request.getAnswers().stream()
-                .peek(answerDto -> questions.add(questionService.findById(answerDto.getQuestionId())))
+                .peek(answerDto -> questions.add(
+                        questionService.findById(answerDto.getQuestionId())))
                 .map(AnswerMapper::toAnswer)
                 .toList();
 
-        CollectionUtils.zip(answers, questions, Answer::setQuestion);
+        CollectionUtils.zip(answers, questions,
+                (answer, question) -> answer.setQuestion(question));
 
         var savedOrUpdatedUser = surveyService.pass(surveyId, user, answers);
 

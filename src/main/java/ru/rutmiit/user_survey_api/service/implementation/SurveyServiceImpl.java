@@ -5,9 +5,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.rutmiit.user_survey_api.exception.SurveyNotFoundException;
-import ru.rutmiit.user_survey_api.model.Answer;
-import ru.rutmiit.user_survey_api.model.Survey;
-import ru.rutmiit.user_survey_api.model.Usr;
+import ru.rutmiit.user_survey_api.model.*;
 import ru.rutmiit.user_survey_api.repository.SurveyRepository;
 import ru.rutmiit.user_survey_api.service.AnswerService;
 import ru.rutmiit.user_survey_api.service.SurveyService;
@@ -58,10 +56,10 @@ public class SurveyServiceImpl implements SurveyService {
 
         var savedOrUpdatedUser = usrService.update(user);
 
-        answers.forEach(a -> {
+        for (Answer a : answers) {
             a.setUsr(savedOrUpdatedUser);
             a.setSurvey(foundedSurvey);
-        });
+        }
 
         answerService.commitAll(answers);
 
@@ -74,10 +72,9 @@ public class SurveyServiceImpl implements SurveyService {
         usrService.findById(id);
         var resultList = surveyRepository.findPassedSurveysByUserId(id);
 
-        resultList.forEach(s -> s
-                .getQuestions().forEach(q -> q
-                        .setAnswers(answerService.findByUserId(id))
-                ));
+        for (Survey s : resultList)
+            for (Question q : s.getQuestions())
+                q.setAnswers(answerService.findByUserId(id));
 
         return resultList;
     }
@@ -89,11 +86,11 @@ public class SurveyServiceImpl implements SurveyService {
         if (survey.getStartDate() == null)
             survey.setStartDate(LocalDate.now());
 
-        survey.getQuestions().forEach(q -> {
+        for (Question q : survey.getQuestions()) {
             q.setSurvey(survey);
-            q.getOptions().forEach(o -> o
-                    .setQuestion(q));
-        });
+            for (Option o : q.getOptions())
+                o.setQuestion(q);
+        }
 
         return surveyRepository.save(survey);
     }
