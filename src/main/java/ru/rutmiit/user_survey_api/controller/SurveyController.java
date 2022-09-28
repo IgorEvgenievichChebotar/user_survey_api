@@ -7,6 +7,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.rutmiit.user_survey_api.dto.request.creating.QuestionDtoRequest;
 import ru.rutmiit.user_survey_api.dto.request.creating.SurveyDtoRequest;
+import ru.rutmiit.user_survey_api.dto.request.passing.AnswerDtoRequest;
 import ru.rutmiit.user_survey_api.dto.request.passing.PassingDtoRequest;
 import ru.rutmiit.user_survey_api.dto.response.SurveyDtoResponse;
 import ru.rutmiit.user_survey_api.exception.QuestionNotCreatedException;
@@ -29,6 +30,7 @@ import ru.rutmiit.user_survey_api.validation.SurveyValidator;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
@@ -130,13 +132,7 @@ public class SurveyController {
                 questionService.findAllBySurveyId(surveyId).stream()
                         .collect(toMap(Question::getId, q -> q));
 
-        List<Question> questions = new ArrayList<>();
-        var answers = request.getAnswers().stream()
-                .peek(answerDto -> questions.add(allQuestions.get(answerDto.getQuestionId())))
-                .map(AnswerMapper::toAnswer)
-                .toList();
-
-        CollectionUtils.zip(answers, questions, Answer::setQuestion);
+        var answers = setQuestionsToAnswers(request.getAnswers(), allQuestions);
 
         var savedOrUpdatedUser = surveyService.pass(surveyId, user, answers);
 
@@ -165,6 +161,18 @@ public class SurveyController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") Long id) {
         surveyService.deleteById(id);
+    }
+
+    private List<Answer> setQuestionsToAnswers(List<AnswerDtoRequest> answersDto, Map<Long, Question> allQuestions) {
+        List<Question> questions = new ArrayList<>();
+        var answers = answersDto.stream()
+                .peek(aDto -> questions.add(allQuestions.get(aDto.getQuestionId())))
+                .map(AnswerMapper::toAnswer)
+                .toList();
+
+        CollectionUtils.zip(answers, questions, Answer::setQuestion);
+
+        return answers;
     }
 }
 
