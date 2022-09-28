@@ -34,8 +34,8 @@ public class Question {
     @Column(name = "text", nullable = false)
     private String text;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
-    private List<Answer> answers = new ArrayList<>();
+    @OneToOne(mappedBy = "question")
+    private Answer answer;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     private List<Option> options = new ArrayList<>();

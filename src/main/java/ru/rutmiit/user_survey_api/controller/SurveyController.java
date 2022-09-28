@@ -13,7 +13,6 @@ import ru.rutmiit.user_survey_api.dto.response.SurveyDtoResponse;
 import ru.rutmiit.user_survey_api.exception.QuestionNotCreatedException;
 import ru.rutmiit.user_survey_api.exception.SurveyNotCreatedException;
 import ru.rutmiit.user_survey_api.exception.SurveyNotUpdatedException;
-import ru.rutmiit.user_survey_api.mapper.AnswerMapper;
 import ru.rutmiit.user_survey_api.mapper.QuestionMapper;
 import ru.rutmiit.user_survey_api.mapper.SurveyMapper;
 import ru.rutmiit.user_survey_api.model.Answer;
@@ -21,7 +20,6 @@ import ru.rutmiit.user_survey_api.model.Question;
 import ru.rutmiit.user_survey_api.model.Survey;
 import ru.rutmiit.user_survey_api.service.QuestionService;
 import ru.rutmiit.user_survey_api.service.SurveyService;
-import ru.rutmiit.user_survey_api.util.CollectionUtils;
 import ru.rutmiit.user_survey_api.util.ExceptionMessageBuilder;
 import ru.rutmiit.user_survey_api.validation.OnCreate;
 import ru.rutmiit.user_survey_api.validation.QuestionValidator;
@@ -30,7 +28,6 @@ import ru.rutmiit.user_survey_api.validation.SurveyValidator;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
@@ -128,11 +125,7 @@ public class SurveyController {
 
         var user = toUsr(request.getUser());
 
-        var allQuestions =
-                questionService.findAllBySurveyId(surveyId).stream()
-                        .collect(toMap(Question::getId, q -> q));
-
-        var answers = setQuestionsToAnswers(request.getAnswers(), allQuestions);
+        var answers = getAnswersFromRequest(surveyId, request);
 
         var savedOrUpdatedUser = surveyService.pass(surveyId, user, answers);
 
@@ -163,14 +156,19 @@ public class SurveyController {
         surveyService.deleteById(id);
     }
 
-    private List<Answer> setQuestionsToAnswers(List<AnswerDtoRequest> answersDto, Map<Long, Question> allQuestions) {
-        List<Question> questions = new ArrayList<>();
-        var answers = answersDto.stream()
-                .peek(aDto -> questions.add(allQuestions.get(aDto.getQuestionId())))
-                .map(AnswerMapper::toAnswer)
-                .toList();
+    private List<Answer> getAnswersFromRequest(Long surveyId, PassingDtoRequest request) {
+        var allQuestions = questionService.findAllBySurveyId(surveyId)
+                .stream()
+                .collect(toMap(Question::getId, q -> q));
 
-        CollectionUtils.zip(answers, questions, Answer::setQuestion);
+        List<Answer> answers = new ArrayList<>();
+        for (AnswerDtoRequest a : request.getAnswers())
+            if (allQuestions.containsKey(a.getQuestionId()))
+                answers.add(
+                        Answer.builder()
+                                .answer(a.getAnswer())
+                                .question(allQuestions.get(a.getQuestionId()))
+                                .build());
 
         return answers;
     }

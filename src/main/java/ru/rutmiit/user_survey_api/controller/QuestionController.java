@@ -35,8 +35,7 @@ public class QuestionController {
                                               required = false) Long id) {
 
         questionValidator.validate(request, bindingResult);
-
-        if (bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             var msg = ExceptionMessageBuilder.buildMessage(bindingResult);
             throw new QuestionNotCreatedException(msg);
         }
@@ -54,7 +53,7 @@ public class QuestionController {
                                       @PathVariable("id") Long id) {
 
         questionValidator.validate(request, bindingResult);
-        if (bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             var msg = ExceptionMessageBuilder.buildMessage(bindingResult);
             throw new QuestionNotUpdatedException(msg);
         }
