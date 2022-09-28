@@ -9,7 +9,7 @@ public interface QuestionService {
 
     Question findByText(String text);
 
-    List<Question> findAll();
+    List<Question> findAllBySurveyId(Long id);
 
     //-------------------------------------------------------------------//
 
