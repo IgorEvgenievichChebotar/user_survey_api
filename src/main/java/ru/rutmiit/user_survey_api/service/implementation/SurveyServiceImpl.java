@@ -50,6 +50,11 @@ public class SurveyServiceImpl implements SurveyService {
     }
 
     @Override
+    public boolean existsByTitle(String title) {
+        return surveyRepository.existsByTitleIgnoreCase(title);
+    }
+
+    @Override
     @Transactional
     public Usr pass(Long surveyId, Usr user, List<Answer> answers) {
         var foundedSurvey = this.findById(surveyId);

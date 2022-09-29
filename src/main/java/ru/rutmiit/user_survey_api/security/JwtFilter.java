@@ -1,7 +1,6 @@
 package ru.rutmiit.user_survey_api.security;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,8 +31,8 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
-                                    @NotNull HttpServletResponse response,
-                                    @NotNull FilterChain filterChain) throws ServletException, IOException {
+                                    HttpServletResponse response,
+                                    FilterChain filterChain) throws ServletException, IOException {
 
         var authHeader = request.getHeader("Authorization");
         if (authHeader != null && !authHeader.isBlank() && authHeader.startsWith("Bearer ")) {

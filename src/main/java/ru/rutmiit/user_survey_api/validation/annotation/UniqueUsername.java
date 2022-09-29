@@ -1,6 +1,6 @@
-package ru.rutmiit.user_survey_api.validation;
+package ru.rutmiit.user_survey_api.validation.annotation;
 
-import ru.rutmiit.user_survey_api.model.enumeration.QuestionType;
+import ru.rutmiit.user_survey_api.validation.UniqueUsernameValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -14,10 +14,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target(FIELD)
 @Retention(RUNTIME)
 @Documented
-@Constraint(validatedBy = QuestionTypeSubsetValidator.class)
-public @interface QuestionTypeSubset {
-    QuestionType[] anyOf();
-    String message() default "must be any of {anyOf}";
+@Constraint(validatedBy = UniqueUsernameValidator.class)
+public @interface UniqueUsername {
+    String message() default "this username already exists";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

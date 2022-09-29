@@ -11,9 +11,12 @@ public interface QuestionService {
 
     List<Question> findAllBySurveyId(Long id);
 
+    boolean existsByText(String text);
+
     //-------------------------------------------------------------------//
 
     Question create(Question question, Long surveyId);
+    List<Question> createAll(List<Question> questions, Long surveyId);
 
     Question update(Question question, Long id);
 

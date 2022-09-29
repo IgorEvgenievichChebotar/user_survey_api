@@ -14,4 +14,6 @@ public interface SurveyRepository extends JpaRepository<Survey, Long> {
     List<Survey> findPassedSurveysByUserId(Long id);
 
     Optional<Survey> findByTitleIgnoreCase(String title);
+
+    boolean existsByTitleIgnoreCase(String title);
 }

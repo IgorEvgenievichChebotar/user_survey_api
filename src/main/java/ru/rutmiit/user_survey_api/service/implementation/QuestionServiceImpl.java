@@ -39,12 +39,27 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
+    public boolean existsByText(String text) {
+        return questionRepository.existsByText(text);
+    }
+
+    @Override
     @Transactional
     @PreAuthorize("hasAuthority('ADMIN')")
     public Question create(Question question, Long surveyId) {
         question.setSurvey(surveyService.findById(surveyId));
 
         return questionRepository.save(question);
+    }
+
+    @Override
+    public List<Question> createAll(List<Question> questions, Long surveyId) {
+        var foundedSurvey = surveyService.findById(surveyId);
+
+        for (Question q : questions)
+            q.setSurvey(foundedSurvey);
+
+        return questionRepository.saveAll(questions);
     }
 
     @Override

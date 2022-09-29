@@ -12,9 +12,7 @@ import ru.rutmiit.user_survey_api.exception.QuestionNotUpdatedException;
 import ru.rutmiit.user_survey_api.service.QuestionService;
 import ru.rutmiit.user_survey_api.util.ExceptionMessageBuilder;
 import ru.rutmiit.user_survey_api.validation.OnCreate;
-import ru.rutmiit.user_survey_api.validation.QuestionValidator;
-
-import javax.validation.Valid;
+import ru.rutmiit.user_survey_api.validation.OnUpdate;
 
 import static ru.rutmiit.user_survey_api.mapper.QuestionMapper.toQuestion;
 import static ru.rutmiit.user_survey_api.mapper.QuestionMapper.toResponse;
@@ -24,7 +22,6 @@ import static ru.rutmiit.user_survey_api.mapper.QuestionMapper.toResponse;
 @RequiredArgsConstructor
 public class QuestionController {
     private final QuestionService questionService;
-    private final QuestionValidator questionValidator;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -34,7 +31,6 @@ public class QuestionController {
                                               value = "survey_id",
                                               required = false) Long id) {
 
-        questionValidator.validate(request, bindingResult);
         if (bindingResult.hasErrors()) {
             var msg = ExceptionMessageBuilder.buildMessage(bindingResult);
             throw new QuestionNotCreatedException(msg);
@@ -48,11 +44,10 @@ public class QuestionController {
     }
 
     @PatchMapping("/{id}")
-    public QuestionDtoResponse update(@RequestBody @Valid QuestionDtoRequest request,
+    public QuestionDtoResponse update(@RequestBody @Validated(OnUpdate.class) QuestionDtoRequest request,
                                       BindingResult bindingResult,
                                       @PathVariable("id") Long id) {
 
-        questionValidator.validate(request, bindingResult);
         if (bindingResult.hasErrors()) {
             var msg = ExceptionMessageBuilder.buildMessage(bindingResult);
             throw new QuestionNotUpdatedException(msg);

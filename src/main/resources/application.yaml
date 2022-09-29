@@ -1,4 +1,4 @@
-module-name: Система опроса пользователей
+module-name: Survey system
 api-version: 1.0
 
 spring:
@@ -24,4 +24,5 @@ jwt:
   issuer: user_survey_api
   subject: user_details
   claim: username
-  expirationTimeSec: 3600
+  expirationTimeSec: 36000000
+

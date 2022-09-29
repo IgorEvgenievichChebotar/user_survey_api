@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ru.rutmiit.user_survey_api.validation.OnCreate;
+import ru.rutmiit.user_survey_api.validation.OnUpdate;
+import ru.rutmiit.user_survey_api.validation.annotation.UniqueSurveyTitle;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Future;
@@ -24,15 +26,16 @@ import java.util.List;
 @Setter
 public class SurveyDtoRequest {
     @NotBlank(message = "survey.title should not be blank", groups = OnCreate.class)
-    @Size(min = 1, max = 255, message = "Incorrect survey.title length")
+    @Size(min = 1, max = 255, message = "Incorrect survey.title length", groups = {OnCreate.class, OnUpdate.class})
+    @UniqueSurveyTitle(groups = {OnCreate.class, OnUpdate.class})
     private String title;
 
     @NotNull(message = "survey.endDate should not be null", groups = OnCreate.class)
-    @Future(message = "survey.date should be a date that has not yet occurred")
+    @Future(message = "survey.date should be a date that has not yet occurred", groups = {OnCreate.class, OnUpdate.class})
     private LocalDate endDate;
 
     @NotBlank(message = "survey.description should not be blank", groups = OnCreate.class)
-    @Size(min = 1, max = 255, message = "Incorrect survey.description length")
+    @Size(min = 1, max = 255, message = "Incorrect survey.description length", groups = {OnCreate.class, OnUpdate.class})
     private String description;
 
     @Valid

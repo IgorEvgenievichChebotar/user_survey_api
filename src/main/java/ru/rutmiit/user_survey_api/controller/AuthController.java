@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,9 +16,7 @@ import ru.rutmiit.user_survey_api.mapper.CredentialMapper;
 import ru.rutmiit.user_survey_api.security.JwtProvider;
 import ru.rutmiit.user_survey_api.service.CredentialService;
 import ru.rutmiit.user_survey_api.util.ExceptionMessageBuilder;
-import ru.rutmiit.user_survey_api.validation.CredentialValidator;
-
-import javax.validation.Valid;
+import ru.rutmiit.user_survey_api.validation.OnCreate;
 
 @RestController
 @RequestMapping("/auth")
@@ -26,13 +25,11 @@ public class AuthController {
     private final JwtProvider jwtProvider;
     private final CredentialService credentialService;
     private final AuthenticationManager authenticationManager;
-    private final CredentialValidator credentialValidator;
 
     @PostMapping("/reg")
-    public TokenDtoResponse reg(@RequestBody @Valid CredentialDtoRequest request,
+    public TokenDtoResponse reg(@RequestBody @Validated(OnCreate.class) CredentialDtoRequest request,
                                 BindingResult bindingResult) {
 
-        credentialValidator.validate(request, bindingResult);
         if (bindingResult.hasErrors()) {
             var msg = ExceptionMessageBuilder.buildMessage(bindingResult);
             throw new UserWasNotRegisteredException(msg);

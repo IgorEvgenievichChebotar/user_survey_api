@@ -22,8 +22,7 @@ import ru.rutmiit.user_survey_api.service.QuestionService;
 import ru.rutmiit.user_survey_api.service.SurveyService;
 import ru.rutmiit.user_survey_api.util.ExceptionMessageBuilder;
 import ru.rutmiit.user_survey_api.validation.OnCreate;
-import ru.rutmiit.user_survey_api.validation.QuestionValidator;
-import ru.rutmiit.user_survey_api.validation.SurveyValidator;
+import ru.rutmiit.user_survey_api.validation.OnUpdate;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -41,8 +40,6 @@ import static ru.rutmiit.user_survey_api.mapper.UsrMapper.toUsr;
 public class SurveyController {
     private final SurveyService surveyService;
     private final QuestionService questionService;
-    private final SurveyValidator surveyValidator;
-    private final QuestionValidator questionValidator;
 
     @GetMapping
     public Iterable<Object> findMany(
@@ -80,10 +77,6 @@ public class SurveyController {
     public SurveyDtoResponse create(@RequestBody @Validated(OnCreate.class) SurveyDtoRequest request,
                                     BindingResult bindingResult) {
 
-        surveyValidator.validate(request, bindingResult);
-        for (QuestionDtoRequest r : request.getQuestions())
-            questionValidator.validate(r, bindingResult);
-
         if (bindingResult.hasErrors()) {
             var msg = ExceptionMessageBuilder.buildMessage(bindingResult);
             throw new SurveyNotCreatedException(msg);
@@ -101,9 +94,6 @@ public class SurveyController {
                                           @RequestBody @Valid List<QuestionDtoRequest> requests,
                                           BindingResult bindingResult) {
 
-        for (QuestionDtoRequest r : requests)
-            questionValidator.validate(r, bindingResult);
-
         if (bindingResult.hasErrors()) {
             var msg = ExceptionMessageBuilder.buildMessage(bindingResult);
             throw new QuestionNotCreatedException(msg);
@@ -113,8 +103,7 @@ public class SurveyController {
                 .map(QuestionMapper::toQuestion)
                 .toList();
 
-        for (Question q : questions)
-            questionService.create(q, id);
+        questionService.createAll(questions, id);
 
         return toResponse(surveyService.findById(id));
     }
@@ -134,10 +123,9 @@ public class SurveyController {
 
     @PatchMapping("/{id}")
     public SurveyDtoResponse update(@PathVariable("id") Long id,
-                                    @RequestBody @Valid SurveyDtoRequest request,
+                                    @RequestBody @Validated(OnUpdate.class) SurveyDtoRequest request,
                                     BindingResult bindingResult) {
 
-        surveyValidator.validate(request, bindingResult);
         if (bindingResult.hasErrors()) {
             var msg = ExceptionMessageBuilder.buildMessage(bindingResult);
             throw new SurveyNotUpdatedException(msg);

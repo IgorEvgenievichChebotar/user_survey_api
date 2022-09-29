@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ru.rutmiit.user_survey_api.validation.OnCreate;
+import ru.rutmiit.user_survey_api.validation.OnUpdate;
+import ru.rutmiit.user_survey_api.validation.annotation.UniqueUsername;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -15,10 +17,11 @@ import javax.validation.constraints.Size;
 @Setter
 public class CredentialDtoRequest {
     @NotBlank(groups = OnCreate.class)
-    @Size(min = 1, max = 255, message = "incorrect username size")
+    @Size(min = 1, max = 255, message = "incorrect username size", groups = {OnCreate.class, OnUpdate.class})
+    @UniqueUsername(groups = OnCreate.class)
     private String username;
 
     @NotBlank(groups = OnCreate.class)
-    @Size(min = 1, max = 255, message = "incorrect password size")
+    @Size(min = 1, max = 255, message = "incorrect password size", groups = {OnCreate.class, OnUpdate.class})
     private String password;
 }

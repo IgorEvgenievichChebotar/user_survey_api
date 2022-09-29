@@ -7,4 +7,6 @@ import java.util.Optional;
 
 public interface CredentialRepository extends JpaRepository<Credential, Long> {
     Optional<Credential> findByUsernameIgnoreCase(String username);
+
+    boolean existsByUsername(String username);
 }

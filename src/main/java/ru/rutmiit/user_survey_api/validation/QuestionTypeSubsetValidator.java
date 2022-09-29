@@ -1,5 +1,7 @@
 package ru.rutmiit.user_survey_api.validation;
 
+import ru.rutmiit.user_survey_api.validation.annotation.QuestionTypeSubset;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.Arrays;

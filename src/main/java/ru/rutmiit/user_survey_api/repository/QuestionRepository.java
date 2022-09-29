@@ -10,4 +10,6 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     Optional<Question> findByTextContainsIgnoreCase(String text);
 
     List<Question> findAllBySurveyId(Long id);
+
+    boolean existsByText(String text);
 }

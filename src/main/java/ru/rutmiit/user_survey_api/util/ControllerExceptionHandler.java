@@ -2,7 +2,6 @@ package ru.rutmiit.user_survey_api.util;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -14,31 +13,32 @@ import ru.rutmiit.user_survey_api.exception.UserNotFoundException;
 import java.time.LocalDateTime;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RestControllerAdvice
 @Slf4j
 public class ControllerExceptionHandler {
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ExceptionResponse handleException(SurveyNotFoundException e) {
+    @ResponseStatus(NOT_FOUND)
+    public ExceptionResponse handleException(SurveyNotFoundException e)  {
         return buildExceptionResponse(e);
     }
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(NOT_FOUND)
     public ExceptionResponse handleException(UsernameNotFoundException e) {
         return buildExceptionResponse(e);
     }
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(NOT_FOUND)
     public ExceptionResponse handleException(UserNotFoundException e) {
         return buildExceptionResponse(e);
     }
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(NOT_FOUND)
     public ExceptionResponse handleException(QuestionNotFoundException e) {
         return buildExceptionResponse(e);
     }
@@ -50,7 +50,7 @@ public class ControllerExceptionHandler {
     }
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(BAD_REQUEST)
     public ExceptionResponse handleException(RuntimeException e) {
         return buildExceptionResponse(e);
     }

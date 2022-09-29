@@ -1,6 +1,7 @@
 package ru.rutmiit.user_survey_api.model;
 
 import lombok.*;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -13,6 +14,7 @@ import java.util.List;
 @Setter
 @Entity
 @Builder
+@Accessors(chain = true)
 @Table(name = "survey")
 public class Survey {
     @Id

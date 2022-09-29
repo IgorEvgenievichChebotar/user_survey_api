@@ -38,4 +38,9 @@ public class CredentialDetailsServiceImpl implements CredentialService, UserDeta
 
         credentialRepository.save(credential);
     }
+
+    @Override
+    public boolean existsByUsername(String username) {
+        return credentialRepository.existsByUsername(username);
+    }
 }
