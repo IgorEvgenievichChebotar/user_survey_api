@@ -18,6 +18,7 @@ import ru.rutmiit.user_survey_api.mapper.SurveyMapper;
 import ru.rutmiit.user_survey_api.model.Answer;
 import ru.rutmiit.user_survey_api.model.Question;
 import ru.rutmiit.user_survey_api.model.Survey;
+import ru.rutmiit.user_survey_api.model.Usr;
 import ru.rutmiit.user_survey_api.service.QuestionService;
 import ru.rutmiit.user_survey_api.service.SurveyService;
 import ru.rutmiit.user_survey_api.util.ExceptionMessageBuilder;
@@ -27,6 +28,7 @@ import ru.rutmiit.user_survey_api.validation.OnUpdate;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
@@ -78,13 +80,13 @@ public class SurveyController {
                                     BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            var msg = ExceptionMessageBuilder.buildMessage(bindingResult);
+            String msg = ExceptionMessageBuilder.buildMessage(bindingResult);
             throw new SurveyNotCreatedException(msg);
         }
 
-        var survey = toSurvey(request);
+        Survey survey = toSurvey(request);
 
-        var createdSurvey = surveyService.create(survey);
+        Survey createdSurvey = surveyService.create(survey);
 
         return toResponse(createdSurvey);
     }
@@ -95,11 +97,11 @@ public class SurveyController {
                                           BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            var msg = ExceptionMessageBuilder.buildMessage(bindingResult);
+            String msg = ExceptionMessageBuilder.buildMessage(bindingResult);
             throw new QuestionNotCreatedException(msg);
         }
 
-        var questions = requests.stream()
+        List<Question> questions = requests.stream()
                 .map(QuestionMapper::toQuestion)
                 .toList();
 
@@ -112,11 +114,11 @@ public class SurveyController {
     public String pass(@PathVariable("id") Long surveyId,
                        @RequestBody @Valid PassingDtoRequest request) {
 
-        var user = toUsr(request.getUser());
+        Usr user = toUsr(request.getUser());
 
-        var answers = getAnswersFromRequest(surveyId, request);
+        List<Answer> answers = getAnswersFromRequest(surveyId, request);
 
-        var savedOrUpdatedUser = surveyService.pass(surveyId, user, answers);
+        Usr savedOrUpdatedUser = surveyService.pass(surveyId, user, answers);
 
         return "Successful, your answers were saved for the user with id " + savedOrUpdatedUser.getId();
     }
@@ -127,13 +129,13 @@ public class SurveyController {
                                     BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            var msg = ExceptionMessageBuilder.buildMessage(bindingResult);
+            String msg = ExceptionMessageBuilder.buildMessage(bindingResult);
             throw new SurveyNotUpdatedException(msg);
         }
 
-        var survey = toSurvey(request);
+        Survey survey = toSurvey(request);
 
-        var updatedSurvey = surveyService.update(survey, id);
+        Survey updatedSurvey = surveyService.update(survey, id);
 
         return toResponse(updatedSurvey);
     }
@@ -145,8 +147,8 @@ public class SurveyController {
     }
 
     private List<Answer> getAnswersFromRequest(Long surveyId, PassingDtoRequest request) {
-        var allQuestions = questionService.findAllBySurveyId(surveyId)
-                .stream()
+        Map<Long, Question> allQuestions =
+                questionService.findAllBySurveyId(surveyId).stream()
                 .collect(toMap(Question::getId, q -> q));
 
         List<Answer> answers = new ArrayList<>();

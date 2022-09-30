@@ -9,6 +9,7 @@ import ru.rutmiit.user_survey_api.dto.request.creating.QuestionDtoRequest;
 import ru.rutmiit.user_survey_api.dto.response.QuestionDtoResponse;
 import ru.rutmiit.user_survey_api.exception.QuestionNotCreatedException;
 import ru.rutmiit.user_survey_api.exception.QuestionNotUpdatedException;
+import ru.rutmiit.user_survey_api.model.Question;
 import ru.rutmiit.user_survey_api.service.QuestionService;
 import ru.rutmiit.user_survey_api.util.ExceptionMessageBuilder;
 import ru.rutmiit.user_survey_api.validation.OnCreate;
@@ -32,13 +33,13 @@ public class QuestionController {
                                               required = false) Long id) {
 
         if (bindingResult.hasErrors()) {
-            var msg = ExceptionMessageBuilder.buildMessage(bindingResult);
+            String msg = ExceptionMessageBuilder.buildMessage(bindingResult);
             throw new QuestionNotCreatedException(msg);
         }
 
-        var question = toQuestion(request);
+        Question question = toQuestion(request);
 
-        var createdQuestion = questionService.create(question, id);
+        Question createdQuestion = questionService.create(question, id);
 
         return toResponse(createdQuestion);
     }
@@ -49,13 +50,13 @@ public class QuestionController {
                                       @PathVariable("id") Long id) {
 
         if (bindingResult.hasErrors()) {
-            var msg = ExceptionMessageBuilder.buildMessage(bindingResult);
+            String msg = ExceptionMessageBuilder.buildMessage(bindingResult);
             throw new QuestionNotUpdatedException(msg);
         }
 
-        var question = toQuestion(request);
+        Question question = toQuestion(request);
 
-        var updatedQuestion = questionService.update(question, id);
+        Question updatedQuestion = questionService.update(question, id);
 
         return toResponse(updatedQuestion);
     }

@@ -5,6 +5,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import ru.rutmiit.user_survey_api.exception.SurveyNotFoundException;
 import ru.rutmiit.user_survey_api.exception.UserNotFoundException;
+import ru.rutmiit.user_survey_api.model.Survey;
+import ru.rutmiit.user_survey_api.model.Usr;
 import ru.rutmiit.user_survey_api.repository.SurveyRepository;
 import ru.rutmiit.user_survey_api.service.implementation.AnswerServiceImpl;
 import ru.rutmiit.user_survey_api.service.implementation.SurveyServiceImpl;
@@ -45,7 +47,7 @@ class SurveyServiceImplTest {
                 .when(surveyRepository)
                 .findById(SURVEY1.getId());
 
-        var result = surveyService.findById(SURVEY1.getId());
+        Survey result = surveyService.findById(SURVEY1.getId());
 
         assertThat(result)
                 .isEqualTo(SURVEY1);
@@ -68,7 +70,7 @@ class SurveyServiceImplTest {
                 .when(surveyRepository)
                 .findByTitleIgnoreCase(SURVEY1.getTitle());
 
-        var result = surveyService.findByTitle(SURVEY1.getTitle());
+        Survey result = surveyService.findByTitle(SURVEY1.getTitle());
 
         assertThat(result)
                 .isEqualTo(SURVEY1);
@@ -91,7 +93,7 @@ class SurveyServiceImplTest {
                 .when(surveyRepository)
                 .findAll();
 
-        var result = surveyService.findActive();
+        List<Survey> result = surveyService.findActive();
 
         assertThat(result)
                 .containsOnly(SURVEY1);
@@ -103,7 +105,7 @@ class SurveyServiceImplTest {
                 .when(surveyRepository)
                 .findAll();
 
-        var result = surveyService.findAll();
+        List<Survey> result = surveyService.findAll();
 
         assertThat(result)
                 .contains(SURVEY1, SURVEY2);
@@ -118,7 +120,7 @@ class SurveyServiceImplTest {
                 .when(usrService)
                 .findById(USER1.getId());
 
-        var result = surveyService.findPassedSurveysByUserId(USER1.getId());
+        List<Survey> result = surveyService.findPassedSurveysByUserId(USER1.getId());
 
         assertThat(result)
                 .containsOnly(SURVEY1);
@@ -145,7 +147,7 @@ class SurveyServiceImplTest {
                 .when(usrService)
                 .update(USER1);
 
-        var result = surveyService.pass(SURVEY1.getId(), USER1, List.of(ANSWER1, ANSWER3));
+        Usr result = surveyService.pass(SURVEY1.getId(), USER1, List.of(ANSWER1, ANSWER3));
 
         assertThat(result)
                 .isEqualTo(USER1);
@@ -178,7 +180,7 @@ class SurveyServiceImplTest {
                 .when(surveyRepository)
                 .save(SURVEY1.setStartDate(null));
 
-        var result = surveyService.create(SURVEY1);
+        Survey result = surveyService.create(SURVEY1);
 
         assertThat(result)
                 .isEqualTo(SURVEY1);
@@ -193,7 +195,7 @@ class SurveyServiceImplTest {
                 .when(surveyRepository)
                 .save(SURVEY1);
 
-        var result = surveyService.update(SURVEY1, SURVEY1.getId());
+        Survey result = surveyService.update(SURVEY1, SURVEY1.getId());
 
         assertThat(result)
                 .isEqualTo(SURVEY1);

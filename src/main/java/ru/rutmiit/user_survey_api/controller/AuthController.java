@@ -13,6 +13,7 @@ import ru.rutmiit.user_survey_api.dto.request.auth.CredentialDtoRequest;
 import ru.rutmiit.user_survey_api.dto.response.TokenDtoResponse;
 import ru.rutmiit.user_survey_api.exception.UserWasNotRegisteredException;
 import ru.rutmiit.user_survey_api.mapper.CredentialMapper;
+import ru.rutmiit.user_survey_api.model.Credential;
 import ru.rutmiit.user_survey_api.security.JwtProvider;
 import ru.rutmiit.user_survey_api.service.CredentialService;
 import ru.rutmiit.user_survey_api.util.ExceptionMessageBuilder;
@@ -31,15 +32,15 @@ public class AuthController {
                                 BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            var msg = ExceptionMessageBuilder.buildMessage(bindingResult);
+            String msg = ExceptionMessageBuilder.buildMessage(bindingResult);
             throw new UserWasNotRegisteredException(msg);
         }
 
-        var credential = CredentialMapper.toCredential(request);
+        Credential credential = CredentialMapper.toCredential(request);
 
         credentialService.reg(credential);
 
-        var token = jwtProvider.generateToken(credential.getUsername());
+        String token = jwtProvider.generateToken(credential.getUsername());
 
         return new TokenDtoResponse(token);
     }
@@ -47,12 +48,12 @@ public class AuthController {
     @PostMapping("/login")
     public TokenDtoResponse login(@RequestBody CredentialDtoRequest request) {
 
-        var authenticationToken = new UsernamePasswordAuthenticationToken(
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                 request.getUsername(),
                 request.getPassword());
         authenticationManager.authenticate(authenticationToken);
 
-        var token = jwtProvider.generateToken(request.getUsername());
+        String token = jwtProvider.generateToken(request.getUsername());
 
         return new TokenDtoResponse(token);
     }

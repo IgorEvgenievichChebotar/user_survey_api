@@ -57,9 +57,9 @@ public class SurveyServiceImpl implements SurveyService {
     @Override
     @Transactional
     public Usr pass(Long surveyId, Usr user, List<Answer> answers) {
-        var foundedSurvey = this.findById(surveyId);
+        Survey foundedSurvey = this.findById(surveyId);
 
-        var savedOrUpdatedUser = usrService.update(user);
+        Usr savedOrUpdatedUser = usrService.update(user);
 
         for (Answer a : answers) {
             a.setUsr(savedOrUpdatedUser);
@@ -99,7 +99,7 @@ public class SurveyServiceImpl implements SurveyService {
     @Transactional
     @PreAuthorize("hasAuthority('ADMIN')")
     public Survey update(Survey survey, Long id) {
-        var foundedSurvey = this.findById(id);
+        Survey foundedSurvey = this.findById(id);
 
         mapNonNullFields(survey, foundedSurvey);
 

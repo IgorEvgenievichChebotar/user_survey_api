@@ -4,6 +4,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -34,15 +35,15 @@ public class JwtFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
 
-        var authHeader = request.getHeader("Authorization");
+        String authHeader = request.getHeader("Authorization");
         if (authHeader != null && !authHeader.isBlank() && authHeader.startsWith("Bearer ")) {
-            var token = authHeader.substring(7);
+            String token = authHeader.substring(7);
 
             try {
-                var claim = jwtProvider.validateTokenAndRetrieveClaim(token);
-                var clientDetails = userDetailsService.loadUserByUsername(claim);
+                String claim = jwtProvider.validateTokenAndRetrieveClaim(token);
+                UserDetails clientDetails = userDetailsService.loadUserByUsername(claim);
 
-                var authenticationToken =
+                UsernamePasswordAuthenticationToken authenticationToken =
                         new UsernamePasswordAuthenticationToken(
                                 clientDetails,
                                 clientDetails.getPassword(),

@@ -8,6 +8,8 @@ import ru.rutmiit.user_survey_api.model.Usr;
 import ru.rutmiit.user_survey_api.repository.UsrRepository;
 import ru.rutmiit.user_survey_api.service.UsrService;
 
+import java.util.Optional;
+
 import static ru.rutmiit.user_survey_api.mapper.FieldMapper.mapNonNullFields;
 
 @Service
@@ -31,9 +33,9 @@ public class UsrServiceImpl implements UsrService {
     @Override
     public Usr update(Usr usr) {
         if (usr != null && usr.getEmail() != null) {
-            var uzr = usrRepository.findByEmail(usr.getEmail());
+            Optional<Usr> uzr = usrRepository.findByEmail(usr.getEmail());
             if (uzr.isPresent()) {
-                var foundedUser = uzr.get();
+                Usr foundedUser = uzr.get();
                 mapNonNullFields(usr, foundedUser);
                 return usrRepository.save(foundedUser);
             } else

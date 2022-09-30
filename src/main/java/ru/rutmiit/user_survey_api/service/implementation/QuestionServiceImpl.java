@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.rutmiit.user_survey_api.exception.QuestionNotFoundException;
 import ru.rutmiit.user_survey_api.model.Question;
+import ru.rutmiit.user_survey_api.model.Survey;
 import ru.rutmiit.user_survey_api.repository.QuestionRepository;
 import ru.rutmiit.user_survey_api.service.QuestionService;
 import ru.rutmiit.user_survey_api.service.SurveyService;
@@ -54,7 +55,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public List<Question> createAll(List<Question> questions, Long surveyId) {
-        var foundedSurvey = surveyService.findById(surveyId);
+        Survey foundedSurvey = surveyService.findById(surveyId);
 
         for (Question q : questions)
             q.setSurvey(foundedSurvey);
@@ -66,7 +67,7 @@ public class QuestionServiceImpl implements QuestionService {
     @Transactional
     @PreAuthorize("hasAuthority('ADMIN')")
     public Question update(Question question, Long id) {
-        var foundedQuestion = this.findById(id);
+        Question foundedQuestion = this.findById(id);
 
         mapNonNullFields(question, foundedQuestion);
 
