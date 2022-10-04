@@ -2,11 +2,16 @@ package ru.rutmiit.user_survey_api.model;
 
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.GenerationType.IDENTITY;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,7 +23,7 @@ import java.util.List;
 @Table(name = "survey")
 public class Survey {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -34,10 +39,10 @@ public class Survey {
     @Column(name = "description")
     private String description;
 
-    @OneToMany(mappedBy = "survey", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "survey", cascade = ALL)
     private List<Answer> answers = new ArrayList<>();
 
-    @OneToMany(mappedBy = "survey", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "survey", cascade = ALL)
     private List<Question> questions = new ArrayList<>();
 
     public Survey(String title, LocalDate endDate, String description, List<Question> questions) {
@@ -47,4 +52,16 @@ public class Survey {
         this.questions = questions;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Survey survey = (Survey) o;
+        return id != null && Objects.equals(id, survey.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

@@ -14,7 +14,7 @@ public abstract class RunTestInContainer { // запускает тестовы�
     }
 
     @DynamicPropertySource
-    static void redisProperties(DynamicPropertyRegistry registry) {
+    static void postgresProperties(DynamicPropertyRegistry registry) {
         registry.add("spring.datasource.url", container::getJdbcUrl);
     }
 }
