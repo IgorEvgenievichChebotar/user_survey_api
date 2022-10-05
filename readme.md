@@ -32,6 +32,7 @@
 - документация по АРI
 
 ## Использованные технологии:
+
 - Spring Boot
 - Spring MVC
 - Spring Security
@@ -64,3 +65,6 @@
 |  GET   |   /survey?active=true    |             получение всех активных вопросов             |     all     |
 |  GET   |       /survey/{id}       |             получение опроса с с заданным id             |     all     |
 |  POST  |    /survey/{id}/pass     |             прохождение опроса с заданным id             |     all     |
+
+## Диаграмма отношений:
+![survey_db.svg](survey_db.svg)
