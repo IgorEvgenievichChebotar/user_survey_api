@@ -22,7 +22,6 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    @Transactional
     public List<Answer> findByUserId(Long id) {
         return answerRepository.findByUserId(id);
     }

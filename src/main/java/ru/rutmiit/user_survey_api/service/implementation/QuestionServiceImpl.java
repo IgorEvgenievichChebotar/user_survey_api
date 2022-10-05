@@ -54,6 +54,8 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
+    @Transactional
+    @PreAuthorize("hasAuthority('ADMIN')")
     public List<Question> createAll(List<Question> questions, Long surveyId) {
         Survey foundedSurvey = surveyService.findById(surveyId);
 

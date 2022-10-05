@@ -31,6 +31,7 @@ public class UsrServiceImpl implements UsrService {
     }
 
     @Override
+    @Transactional
     public Usr update(Usr usr) {
         if (usr != null && usr.getEmail() != null) {
             Optional<Usr> uzr = usrRepository.findByEmail(usr.getEmail());
