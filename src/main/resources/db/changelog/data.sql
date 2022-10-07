@@ -20,3 +20,8 @@ VALUES ('Anatoly', 'anatoly@gmail.com'),
 insert into credential(username, password, role)
 VALUES ('admin', '{bcrypt}$2a$12$LlGBRuoYhqQpXxWwRoHZbeBfdb1siVIaVN0jGbLghKBYJL6ZAbOuG', 'ADMIN');
 
+insert into answer(usr_id, survey_id, question_id, answer)
+VALUES (1, 1, 1, '2'),
+       (1, 1, 3, 'i feed my children potatoes and bananas'),
+       (2, 2, 2, 'Lamborghini Hurricane');
+
