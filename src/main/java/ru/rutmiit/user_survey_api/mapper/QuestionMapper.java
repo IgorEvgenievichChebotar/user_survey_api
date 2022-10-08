@@ -8,13 +8,14 @@ import ru.rutmiit.user_survey_api.model.enumeration.QuestionType;
 
 public class QuestionMapper {
     public static Question toQuestion(QuestionDtoRequest request) {
-        return new Question(
-                request.getText(),
-                QuestionType.valueOf(request.getType().toUpperCase()),
-                request.getOptions().stream()
+        var question = new Question();
+        return question
+                .setText(request.getText())
+                .setType(QuestionType.valueOf(request.getType().toUpperCase()))
+                .setOptions(request.getOptions().stream()
                         .map(OptionMapper::toOption)
-                        .toList()
-        );
+                        .peek(o -> o.setQuestion(question))
+                        .toList());
     }
 
     public static QuestionDtoResponse toResponse(Question question) {

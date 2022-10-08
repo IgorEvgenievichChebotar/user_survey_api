@@ -8,14 +8,15 @@ import ru.rutmiit.user_survey_api.model.Survey;
 public class SurveyMapper {
 
     public static Survey toSurvey(SurveyDtoRequest request) {
-        return new Survey(
-                request.getTitle(),
-                request.getEndDate(),
-                request.getDescription(),
-                request.getQuestions().stream()
+        var survey = new Survey();
+        return survey
+                .setTitle(request.getTitle())
+                .setEndDate(request.getEndDate())
+                .setDescription(request.getDescription())
+                .setQuestions(request.getQuestions().stream()
                         .map(QuestionMapper::toQuestion)
-                        .toList()
-        );
+                        .peek(q -> q.setSurvey(survey))
+                        .toList());
     }
 
     public static SurveyDtoResponse toResponse(Survey survey) {

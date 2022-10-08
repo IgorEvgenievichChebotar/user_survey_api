@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @AllArgsConstructor
@@ -22,15 +23,15 @@ public class Answer {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = ALL)
+    @ManyToOne(fetch = LAZY, cascade = ALL)
     @JoinColumn(name = "usr_id")
     private Usr usr;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = ALL)
+    @ManyToOne(fetch = LAZY, cascade = ALL)
     @JoinColumn(name = "survey_id")
     private Survey survey;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = ALL)
+    @OneToOne(fetch = LAZY, cascade = ALL)
     @JoinColumn(name = "question_id")
     private Question question;
 

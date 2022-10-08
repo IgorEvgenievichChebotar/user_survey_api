@@ -1,6 +1,7 @@
 package ru.rutmiit.user_survey_api.model;
 
 import lombok.*;
+import lombok.experimental.Accessors;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
@@ -21,6 +22,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Setter
 @Entity
 @Builder
+@Accessors(chain = true)
 @Table(name = "question")
 @TypeDef(
         name = "pgsql_enum",

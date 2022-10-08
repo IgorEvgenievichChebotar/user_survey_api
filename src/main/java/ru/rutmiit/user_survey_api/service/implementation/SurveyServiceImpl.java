@@ -5,7 +5,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.rutmiit.user_survey_api.exception.SurveyNotFoundException;
-import ru.rutmiit.user_survey_api.model.*;
+import ru.rutmiit.user_survey_api.model.Answer;
+import ru.rutmiit.user_survey_api.model.Survey;
+import ru.rutmiit.user_survey_api.model.Usr;
 import ru.rutmiit.user_survey_api.repository.SurveyRepository;
 import ru.rutmiit.user_survey_api.service.AnswerService;
 import ru.rutmiit.user_survey_api.service.SurveyService;
@@ -85,12 +87,6 @@ public class SurveyServiceImpl implements SurveyService {
     public Survey create(Survey survey) {
         if (survey.getStartDate() == null)
             survey.setStartDate(LocalDate.now());
-
-        for (Question q : survey.getQuestions()) {
-            q.setSurvey(survey);
-            for (Option o : q.getOptions())
-                o.setQuestion(q);
-        }
 
         return surveyRepository.save(survey);
     }
