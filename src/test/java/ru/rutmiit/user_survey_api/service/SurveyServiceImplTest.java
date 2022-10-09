@@ -8,6 +8,7 @@ import ru.rutmiit.user_survey_api.exception.UserNotFoundException;
 import ru.rutmiit.user_survey_api.model.Survey;
 import ru.rutmiit.user_survey_api.model.Usr;
 import ru.rutmiit.user_survey_api.repository.SurveyRepository;
+import ru.rutmiit.user_survey_api.service.implementation.AnswerServiceImpl;
 import ru.rutmiit.user_survey_api.service.implementation.SurveyServiceImpl;
 import ru.rutmiit.user_survey_api.service.implementation.UsrServiceImpl;
 import unit.UnitTest;
@@ -34,6 +35,9 @@ class SurveyServiceImplTest {
     private SurveyRepository surveyRepository;
     @Mock
     private UsrServiceImpl usrService;
+
+    @Mock
+    private AnswerServiceImpl answerService;
 
     @InjectMocks
     private SurveyServiceImpl surveyService;
@@ -143,6 +147,9 @@ class SurveyServiceImplTest {
         doReturn(USER1)
                 .when(usrService)
                 .update(USER1);
+        doNothing()
+                .when(answerService)
+                .commitAll(anyList());
 
         Usr result = surveyService.pass(SURVEY1.getId(), USER1, List.of(ANSWER1, ANSWER3));
 

@@ -6,9 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
 import ru.rutmiit.user_survey_api.model.enumeration.RoleType;
-import ru.rutmiit.user_survey_api.util.PostgreSQLEnumType;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -21,10 +19,6 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Setter
 @Entity
 @Table(name = "credential")
-@TypeDef(
-        name = "pgsql_enum",
-        typeClass = PostgreSQLEnumType.class
-)
 public class Credential {
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -38,7 +32,7 @@ public class Credential {
     private String password;
 
     @Column(name = "role", columnDefinition = "role_type")
-    @Type(type = "pgsql_enum")
+    @Type(type = "ru.rutmiit.user_survey_api.util.PostgresRoleType")
     @Enumerated(EnumType.STRING)
     private RoleType role;
 

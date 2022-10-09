@@ -4,16 +4,13 @@ import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
 import ru.rutmiit.user_survey_api.model.enumeration.QuestionType;
-import ru.rutmiit.user_survey_api.util.PostgreSQLEnumType;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @AllArgsConstructor
@@ -24,17 +21,13 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Builder
 @Accessors(chain = true)
 @Table(name = "question")
-@TypeDef(
-        name = "pgsql_enum",
-        typeClass = PostgreSQLEnumType.class
-)
 public class Question {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "survey_id")
     private Survey survey;
 
@@ -44,11 +37,11 @@ public class Question {
     @OneToOne(mappedBy = "question")
     private Answer answer;
 
-    @OneToMany(mappedBy = "question", cascade = ALL)
+    @OneToMany(mappedBy = "question")
     private List<Option> options = new ArrayList<>();
 
     @Column(name = "type", columnDefinition = "question_type")
-    @Type(type = "pgsql_enum")
+    @Type(type = "ru.rutmiit.user_survey_api.util.PostgresQuestionType")
     @Enumerated(EnumType.STRING)
     private QuestionType type;
 

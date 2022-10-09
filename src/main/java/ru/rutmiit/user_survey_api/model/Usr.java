@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.CascadeType.DETACH;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @AllArgsConstructor
@@ -30,7 +30,7 @@ public class Usr {
     @Column(name = "email")
     private String email;
 
-    @OneToMany(mappedBy = "usr", cascade = ALL)
+    @OneToMany(mappedBy = "usr", cascade = DETACH)
     private List<Answer> answers = new ArrayList<>();
 
     public Usr(String name, String email) {

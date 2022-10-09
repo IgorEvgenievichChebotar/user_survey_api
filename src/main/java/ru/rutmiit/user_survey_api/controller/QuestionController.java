@@ -60,4 +60,10 @@ public class QuestionController {
 
         return toResponse(updatedQuestion);
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable("id") Long id) {
+        questionService.deleteById(id);
+    }
 }
