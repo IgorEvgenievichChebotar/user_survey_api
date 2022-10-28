@@ -1,9 +1,7 @@
 package ru.rutmiit.user_survey_api.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.rutmiit.user_survey_api.repository.SurveyRepository;
 import unit.UnitTest;
@@ -16,13 +14,10 @@ import unit.UnitTest;
  */
 
 @UnitTest
-@WebMvcTest
-@RequiredArgsConstructor
 class SurveyControllerTest {
-    private final SurveyRepository surveyRepository;
-
-    private final ObjectMapper objectMapper;
-    private final MockMvc mockMvc;
+    private SurveyRepository surveyRepository;
+    private ObjectMapper objectMapper;
+    private MockMvc mockMvc;
 
 /*    @BeforeEach
     void prepare() {

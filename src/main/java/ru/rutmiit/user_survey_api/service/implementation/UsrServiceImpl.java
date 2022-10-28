@@ -19,12 +19,6 @@ public class UsrServiceImpl implements UsrService {
     private final UsrRepository usrRepository;
 
     @Override
-    public Usr findByEmail(String email) {
-        return usrRepository.findByEmail(email)
-                .orElseThrow(UserNotFoundException::new);
-    }
-
-    @Override
     public Usr findById(Long id) {
         return usrRepository.findById(id)
                 .orElseThrow(UserNotFoundException::new);
@@ -32,7 +26,7 @@ public class UsrServiceImpl implements UsrService {
 
     @Override
     @Transactional
-    public Usr update(Usr usr) {
+    public Usr saveOrUpdate(Usr usr) {
         if (usr != null && usr.getEmail() != null) {
             Optional<Usr> uzr = usrRepository.findByEmail(usr.getEmail());
             if (uzr.isPresent()) {

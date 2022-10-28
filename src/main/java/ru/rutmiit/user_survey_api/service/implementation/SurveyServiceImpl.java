@@ -61,7 +61,7 @@ public class SurveyServiceImpl implements SurveyService {
     public Usr pass(Long surveyId, Usr user, List<Answer> answers) {
         Survey foundedSurvey = this.findById(surveyId);
 
-        Usr savedOrUpdatedUser = usrService.update(user);
+        Usr savedOrUpdatedUser = usrService.saveOrUpdate(user);
 
         for (Answer a : answers) {
             a.setUsr(savedOrUpdatedUser);
@@ -76,9 +76,9 @@ public class SurveyServiceImpl implements SurveyService {
     @Override
     @PreAuthorize("hasAuthority('ADMIN')")
     public List<Survey> findPassedSurveysByUserId(Long id) {
-        usrService.findById(id);
+        Usr usr = usrService.findById(id);
 
-        return surveyRepository.findPassedSurveysByUserId(id);
+        return surveyRepository.findPassedSurveysByUserId(usr.getId());
     }
 
     @Override

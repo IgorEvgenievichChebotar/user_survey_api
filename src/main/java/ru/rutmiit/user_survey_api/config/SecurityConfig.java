@@ -23,22 +23,22 @@ public class SecurityConfig {
     };
 
     @Bean
-    PasswordEncoder passwordEncoder() {
+    public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
     @Bean
-    AuthenticationConfiguration authenticationConfiguration() {
+    public AuthenticationConfiguration authenticationConfiguration() {
         return new AuthenticationConfiguration();
     }
 
     @Bean
-    AuthenticationManager authenticationManager() throws Exception {
+    public AuthenticationManager authenticationManager() throws Exception {
         return authenticationConfiguration().getAuthenticationManager();
     }
 
     @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
                 .authorizeHttpRequests(requests -> requests

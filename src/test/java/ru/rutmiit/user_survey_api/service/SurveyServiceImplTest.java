@@ -146,7 +146,7 @@ class SurveyServiceImplTest {
                 .findById(SURVEY1.getId());
         doReturn(USER1)
                 .when(usrService)
-                .update(USER1);
+                .saveOrUpdate(USER1);
         doNothing()
                 .when(answerService)
                 .commitAll(anyList());
