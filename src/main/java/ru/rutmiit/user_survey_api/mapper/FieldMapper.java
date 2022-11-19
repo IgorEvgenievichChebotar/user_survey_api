@@ -9,37 +9,35 @@ import java.util.Collection;
 public class FieldMapper {
     @SneakyThrows
     public static <T> void mapNonNullFields(T source, T target) {
-
         Field[] sourceFields = source.getClass().getDeclaredFields();
         Field[] targetFields = target.getClass().getDeclaredFields();
 
-        for (int sfCounter = 0; sfCounter < sourceFields.length; sfCounter++) {
-
-            Field sourceField = sourceFields[sfCounter];
-            Field targetField = targetFields[sfCounter];
-
-            sourceField.trySetAccessible();
-            targetField.trySetAccessible();
+        CollectionUtils.forEachOfBoth(sourceFields, targetFields, (sf, tf) -> {
+            sf.trySetAccessible();
+            tf.trySetAccessible();
 
             try {
-                Object sourceFieldValue = sourceField.get(source);
-                Object targetFieldValue = targetField.get(target);
+                Object sfValue = sf.get(source);
+                Object tfValue = tf.get(target);
 
-                if (sourceField.get(source) instanceof Collection<?> sourceCollection &&
-                        targetField.get(target) instanceof Collection<?> targetCollection) {
+                if (sfValue instanceof Collection<?> sourceCol &&
+                        tfValue instanceof Collection<?> targetCol)
+                    CollectionUtils.forEachOfBoth(sourceCol, targetCol, FieldMapper::mapNonNullFields);
 
-                    CollectionUtils.zip(sourceCollection, targetCollection, FieldMapper::mapNonNullFields);
+                else if (sfValue instanceof Object[] sourceArr &&
+                        tfValue instanceof Object[] targetArr)
+                    CollectionUtils.forEachOfBoth(sourceArr, targetArr, FieldMapper::mapNonNullFields);
 
-                } else if (sourceFieldValue != null) {
-                    targetField.set(target, sourceFieldValue);
-                }
+                else if (sfValue != null)
+                    tf.set(target, sfValue);
 
-                sourceField.setAccessible(false);
-                targetField.setAccessible(false);
+            } catch (IllegalAccessException ignored) {
 
-            } catch (IllegalAccessException ignore) {
-
+            } finally {
+                sf.setAccessible(false);
+                tf.setAccessible(false);
             }
-        }
+        });
+
     }
 }
